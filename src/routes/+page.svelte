@@ -127,6 +127,66 @@
 		</div>
 	</section>
 
+	<!-- Services Section -->
+	<section id="services" class="relative py-24 lg:py-32">
+		<div class="max-w-6xl mx-auto px-6">
+			<div class="text-center mb-16">
+				<p class="section-label mb-4">What I Offer</p>
+				<h2 class="font-display text-3xl sm:text-4xl font-bold text-cream mb-4">
+					Services
+				</h2>
+				<p class="text-lg text-cream/60 max-w-2xl mx-auto">
+					Expert in dynamical systems, differential equations, numerics, and Python integration.
+				</p>
+			</div>
+
+			<div class="grid md:grid-cols-3 gap-6">
+				{#each services as service}
+					<div class="card card-hover p-8 flex flex-col">
+						<div class="w-12 h-12 rounded-lg bg-teal/10 flex items-center justify-center mb-6">
+							<Icons name={service.icon} class="w-6 h-6 text-teal" />
+						</div>
+						<h3 class="font-display text-xl font-semibold text-cream mb-3">{service.title}</h3>
+						<p class="text-cream/60 leading-relaxed mb-6 flex-grow">{service.description}</p>
+						<ul class="space-y-2">
+							{#each service.items as item}
+								<li class="flex items-center gap-2 text-sm text-cream/70">
+									<Icons name="check" class="w-4 h-4 text-teal flex-shrink-0" />
+									{item}
+								</li>
+							{/each}
+						</ul>
+					</div>
+				{/each}
+			</div>
+		</div>
+	</section>
+
+	<!-- Domain Expertise Section -->
+	<section class="relative py-16 lg:py-20 bg-charcoal-warm/30">
+		<div class="max-w-6xl mx-auto px-6">
+			<div class="text-center mb-12">
+				<p class="section-label mb-4">Domain Experience</p>
+				<h2 class="font-display text-2xl sm:text-3xl font-bold text-cream">
+					Industries & Applications
+				</h2>
+			</div>
+
+			<div class="grid md:grid-cols-3 gap-6">
+				{#each domains as domain}
+					<div class="text-center">
+						<h3 class="font-display text-lg font-semibold text-cream mb-4">{domain.title}</h3>
+						<ul class="space-y-2">
+							{#each domain.items as item}
+								<li class="text-sm text-cream/60">{item}</li>
+							{/each}
+						</ul>
+					</div>
+				{/each}
+			</div>
+		</div>
+	</section>
+
 	<!-- PathSim Section -->
 	<section id="pathsim" class="relative py-24 lg:py-32">
 		<div class="max-w-6xl mx-auto px-6">
@@ -219,66 +279,6 @@
 						<span>Visit pysimhub.io</span>
 					</a>
 				</div>
-			</div>
-		</div>
-	</section>
-
-	<!-- Services Section -->
-	<section id="services" class="relative py-24 lg:py-32">
-		<div class="max-w-6xl mx-auto px-6">
-			<div class="text-center mb-16">
-				<p class="section-label mb-4">What I Offer</p>
-				<h2 class="font-display text-3xl sm:text-4xl font-bold text-cream mb-4">
-					Services
-				</h2>
-				<p class="text-lg text-cream/60 max-w-2xl mx-auto">
-					Expert in dynamical systems, differential equations, numerics, and Python integration.
-				</p>
-			</div>
-
-			<div class="grid md:grid-cols-3 gap-6">
-				{#each services as service}
-					<div class="card card-hover p-8 flex flex-col">
-						<div class="w-12 h-12 rounded-lg bg-teal/10 flex items-center justify-center mb-6">
-							<Icons name={service.icon} class="w-6 h-6 text-teal" />
-						</div>
-						<h3 class="font-display text-xl font-semibold text-cream mb-3">{service.title}</h3>
-						<p class="text-cream/60 leading-relaxed mb-6 flex-grow">{service.description}</p>
-						<ul class="space-y-2">
-							{#each service.items as item}
-								<li class="flex items-center gap-2 text-sm text-cream/70">
-									<Icons name="check" class="w-4 h-4 text-teal flex-shrink-0" />
-									{item}
-								</li>
-							{/each}
-						</ul>
-					</div>
-				{/each}
-			</div>
-		</div>
-	</section>
-
-	<!-- Domain Expertise Section -->
-	<section class="relative py-16 lg:py-20 bg-charcoal-warm/30">
-		<div class="max-w-6xl mx-auto px-6">
-			<div class="text-center mb-12">
-				<p class="section-label mb-4">Domain Experience</p>
-				<h2 class="font-display text-2xl sm:text-3xl font-bold text-cream">
-					Industries & Applications
-				</h2>
-			</div>
-
-			<div class="grid md:grid-cols-3 gap-6">
-				{#each domains as domain}
-					<div class="text-center">
-						<h3 class="font-display text-lg font-semibold text-cream mb-4">{domain.title}</h3>
-						<ul class="space-y-2">
-							{#each domain.items as item}
-								<li class="text-sm text-cream/60">{item}</li>
-							{/each}
-						</ul>
-					</div>
-				{/each}
 			</div>
 		</div>
 	</section>

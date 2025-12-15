@@ -18,9 +18,9 @@
 	}
 
 	const navLinks = [
+		{ href: '#services', label: 'Services' },
 		{ href: '#pathsim', label: 'PathSim' },
 		{ href: '#pysimhub', label: 'PySimHub' },
-		{ href: '#services', label: 'Services' },
 		{ href: '#about', label: 'About' },
 		{ href: '#contact', label: 'Contact' }
 	];
