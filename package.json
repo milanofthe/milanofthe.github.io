@@ -8,7 +8,8 @@
 		"preview": "vite preview",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
-		"fetch-stats": "node scripts/fetch-github-stats.js"
+		"fetch-stats": "node scripts/fetch-github-stats.js",
+		"update-sitemap": "node scripts/update-sitemap.js"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-static": "^3.0.0",

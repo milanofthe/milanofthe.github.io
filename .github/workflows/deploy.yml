@@ -3,6 +3,9 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: ['main']
+  schedule:
+    # Run daily at 6:00 UTC to update stats
+    - cron: '0 6 * * *'
   workflow_dispatch:
 
 permissions:
@@ -32,6 +35,9 @@ jobs:
 
       - name: Fetch GitHub stats
         run: npm run fetch-stats
+
+      - name: Update sitemap
+        run: npm run update-sitemap
 
       - name: Build
         run: npm run build
