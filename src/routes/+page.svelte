@@ -53,21 +53,36 @@
 	const services = [
 		{
 			icon: 'code' as const,
-			title: 'Custom Simulation Development',
-			description: 'Bespoke simulation solutions tailored to your domain. From control systems to multi-physics models, I build simulations that match your engineering requirements.',
-			items: ['System architecture design', 'Numerical method selection', 'Performance optimization', 'Validation & verification']
+			title: 'Model Development',
+			description: 'Formulating mathematical models that fit your data and modeling pipeline. From differential equations to state-space representations.',
+			items: ['System identification', 'Parameter estimation', 'Model order reduction', 'Validation against data']
+		},
+		{
+			icon: 'zap' as const,
+			title: 'Numerical Problem Solving',
+			description: 'Fixing stability, convergence, and performance issues in your simulations. Making slow models fast and unstable models robust.',
+			items: ['Stiff system handling', 'Solver selection & tuning', 'Multirate integration', 'HPC & parallelization']
 		},
 		{
 			icon: 'layers' as const,
-			title: 'PathSim Integration',
-			description: 'Leverage PathSim for your simulation needs. I help teams integrate and extend the framework for their specific applications.',
-			items: ['Custom block development', 'System integration', 'Migration from other tools', 'Architecture consulting']
+			title: 'Digital Twin Integration',
+			description: 'Connecting multiple models into unified simulations. Co-simulation of FEM, circuit, and system-level models.',
+			items: ['Multi-physics coupling', 'Co-simulation orchestration', 'Real-time integration', 'API & pipeline design']
+		}
+	];
+
+	const domains = [
+		{
+			title: 'Nuclear Fusion',
+			items: ['Fuel-cycle modeling', 'Multirate systems', 'FEM co-simulation', 'Event & failure mode analysis']
 		},
 		{
-			icon: 'book' as const,
-			title: 'Training & Workshops',
-			description: 'Upskill your team in dynamical systems simulation. From fundamentals to advanced techniques.',
-			items: ['PathSim deep-dives', 'Numerical methods training', 'Best practices workshops', 'Code review sessions']
+			title: 'RF & Microwave',
+			items: ['Nonlinear frequency domain', 'Limit cycle analysis', 'Multitone simulation', 'Uncertainty quantification']
+		},
+		{
+			title: 'Analog Circuits',
+			items: ['Biomedical sensors', 'Parametric modeling', 'SPICE integration', 'Mixed-signal systems']
 		}
 	];
 
@@ -119,7 +134,7 @@
 				<p class="font-mono text-xs uppercase tracking-[0.2em] text-pathsim mb-4">Featured Project</p>
 				<img src="/images/pathsim_logo.png" alt="PathSim" class="h-24 w-auto mb-6 mx-auto" />
 				<p class="text-lg text-cream/70 leading-relaxed mb-10 max-w-2xl mx-auto">
-					A minimal-dependency Python framework for modeling and simulating complex dynamical systems using block diagrams. Supports runtime modification, automatic linearization, and multiple integrators for stiff systems.
+					A minimal-dependency Python framework for modeling and simulating complex dynamical systems using block diagrams. Applied and experimentally validated for nuclear fusion fuel-cycle modeling at MIT Plasma Science & Fusion Center.
 				</p>
 
 				<!-- Tiles -->
@@ -217,7 +232,7 @@
 					Services
 				</h2>
 				<p class="text-lg text-cream/60 max-w-2xl mx-auto">
-					From custom simulation development to team training, I help organizations harness the power of numerical modeling.
+					Expert in dynamical systems, differential equations, numerics, and Python integration.
 				</p>
 			</div>
 
@@ -235,6 +250,31 @@
 									<Icons name="check" class="w-4 h-4 text-teal flex-shrink-0" />
 									{item}
 								</li>
+							{/each}
+						</ul>
+					</div>
+				{/each}
+			</div>
+		</div>
+	</section>
+
+	<!-- Domain Expertise Section -->
+	<section class="relative py-16 lg:py-20 bg-charcoal-warm/30">
+		<div class="max-w-6xl mx-auto px-6">
+			<div class="text-center mb-12">
+				<p class="section-label mb-4">Domain Experience</p>
+				<h2 class="font-display text-2xl sm:text-3xl font-bold text-cream">
+					Industries & Applications
+				</h2>
+			</div>
+
+			<div class="grid md:grid-cols-3 gap-6">
+				{#each domains as domain}
+					<div class="text-center">
+						<h3 class="font-display text-lg font-semibold text-cream mb-4">{domain.title}</h3>
+						<ul class="space-y-2">
+							{#each domain.items as item}
+								<li class="text-sm text-cream/60">{item}</li>
 							{/each}
 						</ul>
 					</div>
@@ -266,13 +306,13 @@
 					</h2>
 					<div class="space-y-4 text-cream/70 leading-relaxed">
 						<p>
-							I'm a freelance consultant specializing in numerical simulation and scientific computing. My work sits at the intersection of mathematics, physics, and software engineering.
+							I'm a freelance consultant and PhD candidate in electrical engineering, specializing in numerical simulation and scientific computing. Currently, I'm working with MIT Plasma Science & Fusion Center on nuclear fusion fuel-cycle system modeling and simulation.
 						</p>
 						<p>
-							I created <a href="https://pathsim.org" target="_blank" rel="noopener" class="link">PathSim</a>, an open-source Python framework for block-based dynamical system simulation. It's now used by researchers at MIT Plasma Science & Fusion Center and CEA, and has been published in the Journal of Open Source Software.
+							I created <a href="https://pathsim.org" target="_blank" rel="noopener" class="link">PathSim</a>, an open-source Python framework for block-based dynamical system simulation. It's now used by researchers at MIT PSFC and CEA, and has been published in the Journal of Open Source Software.
 						</p>
 						<p>
-							My background spans control systems, multi-physics simulation, and real-time computing. I help teams build simulations that are not just accurate, but also fast, maintainable, and well-architected.
+							With a Master's degree in electrical engineering (honors) and a background spanning control systems, multi-physics simulation, and real-time computing, I help teams build simulations that are accurate, fast, and well-architected.
 						</p>
 					</div>
 
