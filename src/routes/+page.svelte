@@ -73,21 +73,6 @@
 		}
 	];
 
-	const domains = [
-		{
-			title: 'Nuclear Fusion',
-			items: ['Fuel-cycle modeling', 'Multirate systems', 'FEM co-simulation', 'Event & failure mode analysis']
-		},
-		{
-			title: 'RF & Microwave',
-			items: ['Nonlinear frequency domain', 'Limit cycle analysis', 'Multitone simulation', 'Uncertainty quantification']
-		},
-		{
-			title: 'Analog Circuits',
-			items: ['Biomedical sensors', 'Parametric modeling', 'SPICE integration', 'Mixed-signal systems']
-		}
-	];
-
 </script>
 
 <Navigation />
@@ -156,31 +141,6 @@
 									<Icons name="check" class="w-4 h-4 text-teal flex-shrink-0" />
 									{item}
 								</li>
-							{/each}
-						</ul>
-					</div>
-				{/each}
-			</div>
-		</div>
-	</section>
-
-	<!-- Domain Expertise Section -->
-	<section class="relative py-16 lg:py-20 bg-charcoal-warm/30">
-		<div class="max-w-6xl mx-auto px-6">
-			<div class="text-center mb-12">
-				<p class="section-label mb-4">Domain Experience</p>
-				<h2 class="font-display text-2xl sm:text-3xl font-bold text-cream">
-					Industries & Applications
-				</h2>
-			</div>
-
-			<div class="grid md:grid-cols-3 gap-6">
-				{#each domains as domain}
-					<div class="text-center">
-						<h3 class="font-display text-lg font-semibold text-cream mb-4">{domain.title}</h3>
-						<ul class="space-y-2">
-							{#each domain.items as item}
-								<li class="text-sm text-cream/60">{item}</li>
 							{/each}
 						</ul>
 					</div>
