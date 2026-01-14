@@ -193,14 +193,35 @@
 	<section id="pathsim" class="relative py-24 lg:py-32">
 		<div class="max-w-6xl mx-auto px-6">
 			<div class="text-center">
-				<p class="font-mono text-xs uppercase tracking-[0.2em] text-pathsim mb-4">Featured Project</p>
-				<img src="/images/pathsim_logo.png" alt="PathSim" class="h-24 w-auto mb-6 mx-auto" />
-				<p class="text-lg text-cream/70 leading-relaxed mb-10 max-w-2xl mx-auto">
+				<p class="font-mono text-xs uppercase tracking-[0.2em] text-pathsim mb-8">Featured Project</p>
+
+				<!-- Logos side by side -->
+				<div class="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-12 mb-8">
+					<img src="/images/pathsim_logo.png" alt="PathSim" class="h-20 w-auto" />
+					<span class="text-cream/30 text-2xl font-light hidden sm:block">+</span>
+					<img src="/images/pathview_logo.png" alt="PathView" class="h-20 w-auto" />
+				</div>
+
+				<p class="text-lg text-cream/70 leading-relaxed mb-8 max-w-2xl mx-auto">
 					A minimal-dependency Python framework for modeling and simulating complex dynamical systems using block diagrams. Applied and experimentally validated for nuclear fusion fuel-cycle modeling at MIT Plasma Science & Fusion Center.
 				</p>
 
+				<!-- Try PathView CTA -->
+				<div class="mb-10">
+					<a
+						href="https://view.pathsim.org"
+						target="_blank"
+						rel="noopener"
+						class="btn-primary text-lg px-8 py-4"
+					>
+						Try PathView
+						<Icons name="arrow-right" class="w-5 h-5" />
+					</a>
+					<p class="text-sm text-cream/50 mt-3">No installation required — build simulations in your browser</p>
+				</div>
+
 				<!-- Tiles -->
-				<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 mb-10 max-w-4xl mx-auto">
+				<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 mb-10">
 					{#each pathsimTiles as tile}
 						<div class="text-center p-6 card border-pathsim/10">
 							<div class="w-10 h-10 rounded-lg bg-pathsim/10 flex items-center justify-center mb-3 mx-auto">
@@ -248,7 +269,7 @@
 				</p>
 
 				<!-- Tiles -->
-				<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 mb-10 max-w-4xl mx-auto">
+				<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 mb-10">
 					{#each pysimhubTiles as tile}
 						<div class="text-center p-6 card border-pysimhub/10">
 							<div class="w-10 h-10 rounded-lg bg-pysimhub/10 flex items-center justify-center mb-3 mx-auto">
@@ -347,104 +368,102 @@
 	<!-- Contact Section -->
 	<section id="contact" class="relative py-24 lg:py-32 bg-charcoal-warm/30">
 		<div class="max-w-6xl mx-auto px-6">
-			<div class="max-w-xl mx-auto">
-				<div class="text-center mb-10">
-					<p class="section-label mb-4">Get in Touch</p>
-					<h2 class="font-display text-3xl sm:text-4xl font-bold text-cream mb-6">
-						Let's Build Something Together
-					</h2>
-					<p class="text-lg text-cream/60">
-						Have a simulation challenge? I offer a free 30-minute consultation to discuss your needs.
-					</p>
-				</div>
+			<div class="text-center mb-10">
+				<p class="section-label mb-4">Get in Touch</p>
+				<h2 class="font-display text-3xl sm:text-4xl font-bold text-cream mb-6">
+					Let's Build Something Together
+				</h2>
+				<p class="text-lg text-cream/60">
+					Have a simulation challenge? I offer a free 30-minute consultation to discuss your needs.
+				</p>
+			</div>
 
-				<!-- Contact Form -->
-				{#if formStatus === 'success'}
-					<div class="card p-8 border-glow text-center">
-						<div class="w-16 h-16 rounded-full bg-teal/10 flex items-center justify-center mx-auto mb-4">
-							<Icons name="check" class="w-8 h-8 text-teal" />
-						</div>
-						<h3 class="font-display text-xl font-semibold text-cream mb-2">Message Sent</h3>
-						<p class="text-cream/60">Thanks for reaching out. I'll get back to you soon.</p>
+			<!-- Contact Form -->
+			{#if formStatus === 'success'}
+				<div class="card p-8 border-glow text-center">
+					<div class="w-16 h-16 rounded-full bg-teal/10 flex items-center justify-center mx-auto mb-4">
+						<Icons name="check" class="w-8 h-8 text-teal" />
 					</div>
-				{:else}
-					<form onsubmit={handleSubmit} class="card p-8 space-y-6">
-						<!-- Web3Forms configuration -->
-						<input type="hidden" name="access_key" value="6b5ed4bf-68a0-45cc-9b44-f89d78af8a94" />
-						<input type="hidden" name="subject" value="New contact from milanrother.com" />
-						<input type="hidden" name="from_name" value="Website Contact Form" />
+					<h3 class="font-display text-xl font-semibold text-cream mb-2">Message Sent</h3>
+					<p class="text-cream/60">Thanks for reaching out. I'll get back to you soon.</p>
+				</div>
+			{:else}
+				<form onsubmit={handleSubmit} class="card p-8 space-y-6">
+					<!-- Web3Forms configuration -->
+					<input type="hidden" name="access_key" value="6b5ed4bf-68a0-45cc-9b44-f89d78af8a94" />
+					<input type="hidden" name="subject" value="New contact from milanrother.com" />
+					<input type="hidden" name="from_name" value="Website Contact Form" />
 
-						<div class="grid sm:grid-cols-2 gap-6">
-							<div>
-								<label for="name" class="block text-sm font-medium text-cream/70 mb-2">Name</label>
-								<input
-									type="text"
-									id="name"
-									name="name"
-									required
-									class="w-full px-4 py-3 bg-charcoal border border-cream/10 rounded-lg text-cream placeholder-cream/30 focus:outline-none focus:border-teal/50 transition-colors"
-									placeholder="Your name"
-								/>
-							</div>
-							<div>
-								<label for="email" class="block text-sm font-medium text-cream/70 mb-2">Email</label>
-								<input
-									type="email"
-									id="email"
-									name="email"
-									required
-									class="w-full px-4 py-3 bg-charcoal border border-cream/10 rounded-lg text-cream placeholder-cream/30 focus:outline-none focus:border-teal/50 transition-colors"
-									placeholder="you@example.com"
-								/>
-							</div>
-						</div>
+					<div class="grid sm:grid-cols-2 gap-6">
 						<div>
-							<label for="subject" class="block text-sm font-medium text-cream/70 mb-2">Subject</label>
+							<label for="name" class="block text-sm font-medium text-cream/70 mb-2">Name</label>
 							<input
 								type="text"
-								id="subject"
-								name="subject"
+								id="name"
+								name="name"
 								required
 								class="w-full px-4 py-3 bg-charcoal border border-cream/10 rounded-lg text-cream placeholder-cream/30 focus:outline-none focus:border-teal/50 transition-colors"
-								placeholder="What's this about?"
+								placeholder="Your name"
 							/>
 						</div>
 						<div>
-							<label for="message" class="block text-sm font-medium text-cream/70 mb-2">Message</label>
-							<textarea
-								id="message"
-								name="message"
-								rows="5"
+							<label for="email" class="block text-sm font-medium text-cream/70 mb-2">Email</label>
+							<input
+								type="email"
+								id="email"
+								name="email"
 								required
-								class="w-full px-4 py-3 bg-charcoal border border-cream/10 rounded-lg text-cream placeholder-cream/30 focus:outline-none focus:border-teal/50 transition-colors resize-none"
-								placeholder="Tell me about your project..."
-							></textarea>
+								class="w-full px-4 py-3 bg-charcoal border border-cream/10 rounded-lg text-cream placeholder-cream/30 focus:outline-none focus:border-teal/50 transition-colors"
+								placeholder="you@example.com"
+							/>
 						</div>
+					</div>
+					<div>
+						<label for="subject" class="block text-sm font-medium text-cream/70 mb-2">Subject</label>
+						<input
+							type="text"
+							id="subject"
+							name="subject"
+							required
+							class="w-full px-4 py-3 bg-charcoal border border-cream/10 rounded-lg text-cream placeholder-cream/30 focus:outline-none focus:border-teal/50 transition-colors"
+							placeholder="What's this about?"
+						/>
+					</div>
+					<div>
+						<label for="message" class="block text-sm font-medium text-cream/70 mb-2">Message</label>
+						<textarea
+							id="message"
+							name="message"
+							rows="5"
+							required
+							class="w-full px-4 py-3 bg-charcoal border border-cream/10 rounded-lg text-cream placeholder-cream/30 focus:outline-none focus:border-teal/50 transition-colors resize-none"
+							placeholder="Tell me about your project..."
+						></textarea>
+					</div>
 
-						{#if formStatus === 'error'}
-							<p class="text-red-400 text-sm">Something went wrong. Please try again or contact me on LinkedIn.</p>
+					{#if formStatus === 'error'}
+						<p class="text-red-400 text-sm">Something went wrong. Please try again or contact me on LinkedIn.</p>
+					{/if}
+
+					<button
+						type="submit"
+						disabled={formStatus === 'submitting'}
+						class="btn-primary w-full justify-center disabled:opacity-50 disabled:cursor-not-allowed"
+					>
+						{#if formStatus === 'submitting'}
+							Sending...
+						{:else}
+							Send Message
+							<Icons name="arrow-right" class="w-4 h-4" />
 						{/if}
+					</button>
+				</form>
+			{/if}
 
-						<button
-							type="submit"
-							disabled={formStatus === 'submitting'}
-							class="btn-primary w-full justify-center disabled:opacity-50 disabled:cursor-not-allowed"
-						>
-							{#if formStatus === 'submitting'}
-								Sending...
-							{:else}
-								Send Message
-								<Icons name="arrow-right" class="w-4 h-4" />
-							{/if}
-						</button>
-					</form>
-				{/if}
-
-				<!-- Alternative contact -->
-				<p class="text-sm text-cream/40 mt-8 text-center">
-					Prefer LinkedIn? <a href="https://linkedin.com/in/milan-rother-648474183" target="_blank" rel="noopener" class="link">Connect with me there</a>.
-				</p>
-			</div>
+			<!-- Alternative contact -->
+			<p class="text-sm text-cream/40 mt-8 text-center">
+				Prefer LinkedIn? <a href="https://linkedin.com/in/milan-rother-648474183" target="_blank" rel="noopener" class="link">Connect with me there</a>.
+			</p>
 		</div>
 	</section>
 
