@@ -21,7 +21,6 @@
 		{ href: '/#about', label: 'About' },
 		{ href: '/#services', label: 'Services' },
 		{ href: '/#projects', label: 'Projects' },
-		{ href: '/dashboard', label: 'Dashboard' },
 		{ href: '/#contact', label: 'Contact' }
 	];
 
