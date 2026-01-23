@@ -72,8 +72,8 @@
 		return { pageViews, visits };
 	}
 
-	// 4 hours in milliseconds for bar width (slightly wider to avoid gaps)
-	const fourHoursMs = 4.1 * 60 * 60 * 1000;
+	// 4 hours in milliseconds for bar width (wider to avoid gaps)
+	const fourHoursMs = 4.3 * 60 * 60 * 1000;
 
 	// Build time series chart data for page views
 	function getPageViewsData() {
