@@ -72,6 +72,9 @@
 		return { pageViews, visits };
 	}
 
+	// 6 hours in milliseconds for bar width (slightly wider to avoid gaps)
+	const sixHoursMs = 6.1 * 60 * 60 * 1000;
+
 	// Build time series chart data for page views
 	function getPageViewsData() {
 		if (selectedSite && analytics.sites[selectedSite]) {
@@ -81,12 +84,10 @@
 				{
 					x: site.timeseries.map((d) => d.datetime),
 					y: site.timeseries.map((d) => d.pageViews),
-					type: 'scatter',
-					mode: 'lines',
+					type: 'bar',
 					name: 'Page Views',
-					line: { color, width: 1.5, shape: 'spline' },
-					fill: 'tozeroy',
-					fillcolor: color + '20'
+					marker: { color, line: { width: 0 } },
+					width: sixHoursMs
 				}
 			];
 		}
@@ -98,19 +99,16 @@
 			traces.push({
 				x: site.timeseries.map((d) => d.datetime),
 				y: site.timeseries.map((d) => d.pageViews),
-				type: 'scatter',
-				mode: 'lines',
+				type: 'bar',
 				name: hostname,
-				line: { color, width: 1.5, shape: 'spline' },
-				fill: 'tonexty',
-				fillcolor: color + '40',
-				stackgroup: 'one'
+				marker: { color, line: { width: 0 } },
+				width: sixHoursMs
 			});
 		});
 		return traces;
 	}
 
-	// Build time series chart data for unique visitors
+	// Build time series chart data for visits
 	function getVisitorsData() {
 		if (selectedSite && analytics.sites[selectedSite]) {
 			const site = analytics.sites[selectedSite];
@@ -119,12 +117,10 @@
 				{
 					x: site.timeseries.map((d) => d.datetime),
 					y: site.timeseries.map((d) => d.visits),
-					type: 'scatter',
-					mode: 'lines',
+					type: 'bar',
 					name: 'Visits',
-					line: { color, width: 1.5, shape: 'spline' },
-					fill: 'tozeroy',
-					fillcolor: color + '20'
+					marker: { color, line: { width: 0 } },
+					width: sixHoursMs
 				}
 			];
 		}
@@ -136,13 +132,10 @@
 			traces.push({
 				x: site.timeseries.map((d) => d.datetime),
 				y: site.timeseries.map((d) => d.visits),
-				type: 'scatter',
-				mode: 'lines',
+				type: 'bar',
 				name: hostname,
-				line: { color, width: 1.5, shape: 'spline' },
-				fill: 'tonexty',
-				fillcolor: color + '40',
-				stackgroup: 'one'
+				marker: { color, line: { width: 0 } },
+				width: sixHoursMs
 			});
 		});
 		return traces;
@@ -159,7 +152,7 @@
 				y: site.topReferrers.map((d) => d.referrer),
 				type: 'bar',
 				orientation: 'h',
-				marker: { color }
+				marker: { color, line: { width: 0 } }
 			}
 		];
 	}
@@ -175,7 +168,7 @@
 				y: site.topCountries.map((d) => d.country),
 				type: 'bar',
 				orientation: 'h',
-				marker: { color }
+				marker: { color, line: { width: 0 } }
 			}
 		];
 	}
@@ -204,9 +197,10 @@
 	let countriesData = $derived(getCountriesData());
 	let currentSite: SiteData | null = $derived(getCurrentSiteData());
 
-	// Layout for unified hover in all view
-	const unifiedHoverLayout = {
-		hovermode: 'x unified' as const
+	// Layout for unified hover and stacked bars in all view
+	const allSitesLayout = {
+		hovermode: 'x unified' as const,
+		barmode: 'stack' as const
 	};
 </script>
 
@@ -280,7 +274,7 @@
 							layout={{
 								height: 180,
 								margin: { t: 5, r: 5, b: 45, l: 35 },
-								...(selectedSite ? {} : unifiedHoverLayout)
+								...(selectedSite ? {} : allSitesLayout)
 							}}
 							class="w-full"
 						/>
@@ -294,7 +288,7 @@
 							layout={{
 								height: 180,
 								margin: { t: 5, r: 5, b: 45, l: 35 },
-								...(selectedSite ? {} : unifiedHoverLayout)
+								...(selectedSite ? {} : allSitesLayout)
 							}}
 							class="w-full"
 						/>
