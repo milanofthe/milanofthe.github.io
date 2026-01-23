@@ -72,8 +72,8 @@
 		return { pageViews, visits };
 	}
 
-	// Build time series chart data
-	function getTimeseriesData() {
+	// Build time series chart data for page views
+	function getPageViewsData() {
 		if (selectedSite && analytics.sites[selectedSite]) {
 			const site = analytics.sites[selectedSite];
 			const color = getMutedColor(site.color);
@@ -86,12 +86,14 @@
 					name: 'Page Views',
 					line: { color, width: 1.5, shape: 'spline' },
 					fill: 'tozeroy',
-					fillcolor: 'rgba(0,0,0,0)'
+					fillcolor: color + '20'
 				}
 			];
 		}
-		const traces = [];
-		for (const [hostname, site] of Object.entries(analytics.sites)) {
+		// Stacked view for all sites
+		const traces: any[] = [];
+		const siteEntries = Object.entries(analytics.sites);
+		siteEntries.forEach(([hostname, site]) => {
 			const color = getMutedColor(site.color);
 			traces.push({
 				x: site.timeseries.map((d) => d.date),
@@ -100,10 +102,49 @@
 				mode: 'lines',
 				name: hostname,
 				line: { color, width: 1.5, shape: 'spline' },
-				fill: 'tozeroy',
-				fillcolor: 'rgba(0,0,0,0)'
+				fill: 'tonexty',
+				fillcolor: color + '40',
+				stackgroup: 'one'
 			});
+		});
+		return traces;
+	}
+
+	// Build time series chart data for unique visitors
+	function getVisitorsData() {
+		if (selectedSite && analytics.sites[selectedSite]) {
+			const site = analytics.sites[selectedSite];
+			const color = getMutedColor(site.color);
+			return [
+				{
+					x: site.timeseries.map((d) => d.date),
+					y: site.timeseries.map((d) => d.visits),
+					type: 'scatter',
+					mode: 'lines',
+					name: 'Visits',
+					line: { color, width: 1.5, shape: 'spline' },
+					fill: 'tozeroy',
+					fillcolor: color + '20'
+				}
+			];
 		}
+		// Stacked view for all sites
+		const traces: any[] = [];
+		const siteEntries = Object.entries(analytics.sites);
+		siteEntries.forEach(([hostname, site]) => {
+			const color = getMutedColor(site.color);
+			traces.push({
+				x: site.timeseries.map((d) => d.date),
+				y: site.timeseries.map((d) => d.visits),
+				type: 'scatter',
+				mode: 'lines',
+				name: hostname,
+				line: { color, width: 1.5, shape: 'spline' },
+				fill: 'tonexty',
+				fillcolor: color + '40',
+				stackgroup: 'one'
+			});
+		});
 		return traces;
 	}
 
@@ -118,7 +159,7 @@
 				y: site.topReferrers.map((d) => d.referrer),
 				type: 'bar',
 				orientation: 'h',
-				marker: { color: 'transparent', line: { color, width: 1 } }
+				marker: { color }
 			}
 		];
 	}
@@ -134,7 +175,7 @@
 				y: site.topCountries.map((d) => d.country),
 				type: 'bar',
 				orientation: 'h',
-				marker: { color: 'transparent', line: { color, width: 1 } }
+				marker: { color }
 			}
 		];
 	}
@@ -157,10 +198,16 @@
 
 	// Reactive values
 	let summary = $derived(getSummary());
-	let timeseriesData = $derived(getTimeseriesData());
+	let pageViewsData = $derived(getPageViewsData());
+	let visitorsData = $derived(getVisitorsData());
 	let referrersData = $derived(getReferrersData());
 	let countriesData = $derived(getCountriesData());
 	let currentSite: SiteData | null = $derived(getCurrentSiteData());
+
+	// Layout for unified hover in all view
+	const unifiedHoverLayout = {
+		hovermode: 'x unified' as const
+	};
 </script>
 
 <Navigation />
@@ -218,29 +265,49 @@
 				</div>
 			</div>
 
-			<!-- Time Series Chart -->
-			<div class="p-4 rounded-lg bg-cream/[0.02] border border-cream/5 mb-6">
-				<h2 class="text-sm text-cream/50 mb-3">Page Views</h2>
-				{#key selectedSite}
-					<PlotlyChart
-						data={timeseriesData}
-						layout={{ height: 200, margin: { t: 0, r: 10, b: 30, l: 40 } }}
-						class="w-full"
-					/>
-				{/key}
+			<!-- Time Series Charts -->
+			<div class="flex flex-col gap-4 mb-6">
+				<div class="p-3 rounded-lg bg-cream/[0.02] border border-cream/5">
+					<h2 class="text-sm text-cream/50 mb-3">Page Views</h2>
+					{#key selectedSite}
+						<PlotlyChart
+							data={pageViewsData}
+							layout={{
+								height: 180,
+								margin: { t: 5, r: 5, b: 45, l: 35 },
+								...(selectedSite ? {} : unifiedHoverLayout)
+							}}
+							class="w-full"
+						/>
+					{/key}
+				</div>
+				<div class="p-3 rounded-lg bg-cream/[0.02] border border-cream/5">
+					<h2 class="text-sm text-cream/50 mb-3">Visits</h2>
+					{#key selectedSite}
+						<PlotlyChart
+							data={visitorsData}
+							layout={{
+								height: 180,
+								margin: { t: 5, r: 5, b: 45, l: 35 },
+								...(selectedSite ? {} : unifiedHoverLayout)
+							}}
+							class="w-full"
+						/>
+					{/key}
+				</div>
 			</div>
 
 			<!-- Detail Section -->
 			{#if selectedSite && currentSite}
 				<div class="grid md:grid-cols-2 gap-4">
 					<!-- Top Referrers -->
-					<div class="p-4 rounded-lg bg-cream/[0.02] border border-cream/5">
+					<div class="p-3 rounded-lg bg-cream/[0.02] border border-cream/5">
 						<h2 class="text-sm text-cream/50 mb-3">Referrers</h2>
 						{#if referrersData.length > 0}
 							{#key selectedSite}
 								<PlotlyChart
 									data={referrersData}
-									layout={{ height: 180, margin: { t: 0, r: 10, b: 20, l: 100 } }}
+									layout={{ height: 180, margin: { t: 0, r: 10, b: 20 }, yaxis: { automargin: true } }}
 								/>
 							{/key}
 						{:else}
@@ -249,13 +316,13 @@
 					</div>
 
 					<!-- Top Countries -->
-					<div class="p-4 rounded-lg bg-cream/[0.02] border border-cream/5">
+					<div class="p-3 rounded-lg bg-cream/[0.02] border border-cream/5">
 						<h2 class="text-sm text-cream/50 mb-3">Countries</h2>
 						{#if countriesData.length > 0}
 							{#key selectedSite}
 								<PlotlyChart
 									data={countriesData}
-									layout={{ height: 180, margin: { t: 0, r: 10, b: 20, l: 100 } }}
+									layout={{ height: 180, margin: { t: 0, r: 10, b: 20 }, yaxis: { automargin: true } }}
 								/>
 							{/key}
 						{:else}
@@ -264,7 +331,7 @@
 					</div>
 
 					<!-- Top Pages -->
-					<div class="p-4 rounded-lg bg-cream/[0.02] border border-cream/5">
+					<div class="p-3 rounded-lg bg-cream/[0.02] border border-cream/5">
 						<h2 class="text-sm text-cream/50 mb-3">Pages</h2>
 						{#if currentSite.topPages?.length > 0}
 							<ul class="space-y-2">
@@ -281,7 +348,7 @@
 					</div>
 
 					<!-- Top Browsers -->
-					<div class="p-4 rounded-lg bg-cream/[0.02] border border-cream/5">
+					<div class="p-3 rounded-lg bg-cream/[0.02] border border-cream/5">
 						<h2 class="text-sm text-cream/50 mb-3">Browsers</h2>
 						{#if currentSite.topBrowsers?.length > 0}
 							<ul class="space-y-2">
@@ -306,7 +373,7 @@
 						{@const sitePageViews = last30.reduce((sum, d) => sum + d.pageViews, 0)}
 						{@const siteVisits = last30.reduce((sum, d) => sum + d.visits, 0)}
 						<button
-							class="p-4 rounded-lg bg-cream/[0.02] border border-cream/5 text-left transition-all hover:bg-cream/[0.04] hover:border-cream/10"
+							class="p-3 rounded-lg bg-cream/[0.02] border border-cream/5 text-left transition-all hover:bg-cream/[0.04] hover:border-cream/10"
 							onclick={() => (selectedSite = site)}
 						>
 							<div class="flex items-center gap-2 mb-3">

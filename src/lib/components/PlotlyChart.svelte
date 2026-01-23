@@ -21,16 +21,27 @@
 			color: 'rgba(240, 239, 233, 0.7)', // cream/70
 			size: 12
 		},
-		margin: { t: 20, r: 20, b: 40, l: 50 },
+		margin: { t: 10, r: 10, b: 40, l: 40 },
 		xaxis: {
 			gridcolor: 'rgba(240, 239, 233, 0.1)',
 			linecolor: 'rgba(240, 239, 233, 0.1)',
-			tickfont: { color: 'rgba(240, 239, 233, 0.5)' }
+			tickfont: { color: 'rgba(240, 239, 233, 0.5)' },
+			showspikes: false
 		},
 		yaxis: {
 			gridcolor: 'rgba(240, 239, 233, 0.1)',
 			linecolor: 'rgba(240, 239, 233, 0.1)',
-			tickfont: { color: 'rgba(240, 239, 233, 0.5)' }
+			tickfont: { color: 'rgba(240, 239, 233, 0.5)' },
+			showspikes: false
+		},
+		hoverlabel: {
+			bgcolor: 'rgba(30, 30, 30, 0.95)',
+			bordercolor: 'rgba(240, 239, 233, 0.2)',
+			font: {
+				family: 'Inter, system-ui, sans-serif',
+				color: 'rgba(240, 239, 233, 0.9)',
+				size: 12
+			}
 		},
 		showlegend: false
 	};
