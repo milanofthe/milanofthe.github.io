@@ -14,15 +14,15 @@ import { sites, config } from './analytics-config.js';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ANALYTICS_PATH = join(__dirname, '..', 'src', 'lib', 'data', 'analytics.json');
 
-// GraphQL query for time series data (fetches specific date range)
+// GraphQL query for time series data (fetches hourly, aggregated to 6-hour buckets)
 const TIMESERIES_QUERY = `
 query GetTimeseries($accountTag: String!, $filter: AccountRumPageloadEventsAdaptiveGroupsFilter_InputObject!) {
   viewer {
     accounts(filter: { accountTag: $accountTag }) {
-      timeseries: rumPageloadEventsAdaptiveGroups(filter: $filter, limit: 100, orderBy: [date_ASC]) {
+      timeseries: rumPageloadEventsAdaptiveGroups(filter: $filter, limit: 1000, orderBy: [datetimeHour_ASC]) {
         count
         sum { visits }
-        dimensions { date }
+        dimensions { datetimeHour }
       }
     }
   }
@@ -64,13 +64,13 @@ function loadExistingData() {
 	}
 }
 
-function getLatestDateForSite(existingData, hostname) {
+function getLatestDatetimeForSite(existingData, hostname) {
 	const siteData = existingData.sites[hostname];
 	if (!siteData?.timeseries?.length) return null;
 
-	// Find the most recent date in the timeseries
-	const dates = siteData.timeseries.map((d) => d.date).sort();
-	return dates[dates.length - 1];
+	// Find the most recent datetime in the timeseries
+	const datetimes = siteData.timeseries.map((d) => d.datetime).sort();
+	return datetimes[datetimes.length - 1];
 }
 
 function formatDate(date) {
@@ -100,6 +100,16 @@ async function graphqlRequest(query, variables) {
 	return json.data;
 }
 
+// Convert hour to 6-hour bucket (0, 6, 12, 18)
+function getQuarterDayBucket(datetimeHour) {
+	// datetimeHour format: "2026-01-23T14:00:00Z"
+	const date = new Date(datetimeHour);
+	const hour = date.getUTCHours();
+	const bucketHour = Math.floor(hour / 6) * 6;
+	const dateStr = datetimeHour.split('T')[0];
+	return `${dateStr}T${String(bucketHour).padStart(2, '0')}:00:00Z`;
+}
+
 async function fetchTimeseriesForSite(site, startDate, endDate) {
 	const variables = {
 		accountTag: config.accountId,
@@ -112,13 +122,28 @@ async function fetchTimeseriesForSite(site, startDate, endDate) {
 	};
 
 	const data = await graphqlRequest(TIMESERIES_QUERY, variables);
-	const timeseries = data.viewer.accounts[0]?.timeseries || [];
+	const hourlyData = data.viewer.accounts[0]?.timeseries || [];
 
-	return timeseries.map((d) => ({
-		date: d.dimensions.date,
-		pageViews: d.count,
-		visits: d.sum?.visits || 0
-	}));
+	// Aggregate hourly data into 6-hour buckets
+	const buckets = new Map();
+	for (const d of hourlyData) {
+		const bucket = getQuarterDayBucket(d.dimensions.datetimeHour);
+		if (!buckets.has(bucket)) {
+			buckets.set(bucket, { pageViews: 0, visits: 0 });
+		}
+		const b = buckets.get(bucket);
+		b.pageViews += d.count;
+		b.visits += d.sum?.visits || 0;
+	}
+
+	// Convert to array and sort
+	return Array.from(buckets.entries())
+		.map(([datetime, data]) => ({
+			datetime,
+			pageViews: data.pageViews,
+			visits: data.visits
+		}))
+		.sort((a, b) => a.datetime.localeCompare(b.datetime));
 }
 
 async function fetchAggregatesForSite(site) {
@@ -188,22 +213,23 @@ async function fetchSiteData(site, existingData) {
 	};
 
 	// Determine date range for incremental fetch
-	const latestDate = getLatestDateForSite(existingData, site.hostname);
+	const latestDatetime = getLatestDatetimeForSite(existingData, site.hostname);
 	const endDate = new Date();
 	let startDate;
 
-	if (latestDate) {
-		// Fetch from day after latest date
-		startDate = new Date(latestDate);
-		startDate.setDate(startDate.getDate() + 1);
+	if (latestDatetime) {
+		// Fetch from 6 hours after latest datetime
+		startDate = new Date(latestDatetime);
+		startDate.setUTCHours(startDate.getUTCHours() + 6);
 	} else {
 		// Initial fetch: get max history
 		startDate = new Date();
 		startDate.setDate(startDate.getDate() - config.maxHistoryDays);
 	}
 
-	// Skip if we're already up to date
-	if (startDate > endDate) {
+	// Skip if we're already up to date (within 6 hours)
+	const hoursDiff = (endDate - startDate) / (1000 * 60 * 60);
+	if (hoursDiff < 6) {
 		console.log(`${site.name}: already up to date`);
 		// Still fetch aggregates to get fresh top pages, referrers, etc.
 		const aggregates = await fetchAggregatesForSite(site);
@@ -219,11 +245,11 @@ async function fetchSiteData(site, existingData) {
 	const newTimeseries = await fetchTimeseriesForSite(site, formatDate(startDate), formatDate(endDate));
 
 	// Merge with existing timeseries (avoid duplicates)
-	const existingDates = new Set(existingSiteData.timeseries.map((d) => d.date));
+	const existingDatetimes = new Set(existingSiteData.timeseries.map((d) => d.datetime));
 	const mergedTimeseries = [
 		...existingSiteData.timeseries,
-		...newTimeseries.filter((d) => !existingDates.has(d.date))
-	].sort((a, b) => a.date.localeCompare(b.date));
+		...newTimeseries.filter((d) => !existingDatetimes.has(d.datetime))
+	].sort((a, b) => a.datetime.localeCompare(b.datetime));
 
 	// Fetch fresh aggregates
 	const aggregates = await fetchAggregatesForSite(site);

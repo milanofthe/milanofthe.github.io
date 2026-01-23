@@ -12,7 +12,7 @@
 	interface SiteData {
 		name: string;
 		color: string;
-		timeseries: Array<{ date: string; pageViews: number; visits: number }>;
+		timeseries: Array<{ datetime: string; pageViews: number; visits: number }>;
 		topPages: Array<{ path: string; pageViews: number }>;
 		topReferrers: Array<{ referrer: string; pageViews: number }>;
 		topCountries: Array<{ country: string; pageViews: number }>;
@@ -79,7 +79,7 @@
 			const color = getMutedColor(site.color);
 			return [
 				{
-					x: site.timeseries.map((d) => d.date),
+					x: site.timeseries.map((d) => d.datetime),
 					y: site.timeseries.map((d) => d.pageViews),
 					type: 'scatter',
 					mode: 'lines',
@@ -96,7 +96,7 @@
 		siteEntries.forEach(([hostname, site]) => {
 			const color = getMutedColor(site.color);
 			traces.push({
-				x: site.timeseries.map((d) => d.date),
+				x: site.timeseries.map((d) => d.datetime),
 				y: site.timeseries.map((d) => d.pageViews),
 				type: 'scatter',
 				mode: 'lines',
@@ -117,7 +117,7 @@
 			const color = getMutedColor(site.color);
 			return [
 				{
-					x: site.timeseries.map((d) => d.date),
+					x: site.timeseries.map((d) => d.datetime),
 					y: site.timeseries.map((d) => d.visits),
 					type: 'scatter',
 					mode: 'lines',
@@ -134,7 +134,7 @@
 		siteEntries.forEach(([hostname, site]) => {
 			const color = getMutedColor(site.color);
 			traces.push({
-				x: site.timeseries.map((d) => d.date),
+				x: site.timeseries.map((d) => d.datetime),
 				y: site.timeseries.map((d) => d.visits),
 				type: 'scatter',
 				mode: 'lines',
@@ -256,10 +256,15 @@
 					<span class="text-cream/40 ml-1.5">visits</span>
 				</div>
 				<div class="text-cream/40">
-					{#if currentSite}
-						{currentSite.timeseries.length}
+					{#if currentSite && currentSite.timeseries.length > 0}
+						{@const firstDate = currentSite.timeseries[0].datetime.split('T')[0]}
+						{@const lastDate = currentSite.timeseries[currentSite.timeseries.length - 1].datetime.split('T')[0]}
+						{Math.ceil((new Date(lastDate).getTime() - new Date(firstDate).getTime()) / (1000 * 60 * 60 * 24)) + 1}
 					{:else}
-						{Math.max(...siteList.map((s) => analytics.sites[s].timeseries.length), 0)}
+						{@const allTimeseries = siteList.flatMap((s) => analytics.sites[s].timeseries)}
+						{@const dates = allTimeseries.map((d) => d.datetime.split('T')[0])}
+						{@const uniqueDates = [...new Set(dates)].sort()}
+						{uniqueDates.length}
 					{/if}
 					days
 				</div>
