@@ -36,7 +36,7 @@ query GetAggregates($accountTag: String!, $filter: AccountRumPageloadEventsAdapt
     accounts(filter: { accountTag: $accountTag }) {
       topPages: rumPageloadEventsAdaptiveGroups(filter: $filter, limit: 10, orderBy: [count_DESC]) {
         count
-        dimensions { path }
+        dimensions { requestPath }
       }
       topReferrers: rumPageloadEventsAdaptiveGroups(filter: $filter, limit: 10, orderBy: [count_DESC]) {
         count
@@ -145,9 +145,9 @@ async function fetchAggregatesForSite(site) {
 
 	return {
 		topPages: (account?.topPages || [])
-			.filter((d) => d.dimensions.path)
+			.filter((d) => d.dimensions.requestPath)
 			.map((d) => ({
-				path: d.dimensions.path,
+				path: d.dimensions.requestPath,
 				pageViews: d.count
 			})),
 		topReferrers: (account?.topReferrers || [])
