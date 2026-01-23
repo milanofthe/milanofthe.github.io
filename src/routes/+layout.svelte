@@ -5,7 +5,7 @@
 </script>
 
 <svelte:head>
-	<title>Milan Rother | Simulation & Scientific Computing</title>
+	<title>Milan Rother</title>
 </svelte:head>
 
 {@render children()}

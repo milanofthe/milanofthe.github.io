@@ -1,5 +1,5 @@
 <svelte:head>
-	<title>Analytics | Milan Rother</title>
+	<title>Analytics</title>
 	<script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
 </svelte:head>
 
