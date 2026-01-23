@@ -59,7 +59,7 @@
 		{ icon: 'layers' as const, title: 'Hierarchical', caption: 'Nested subsystems' },
 		{ icon: 'chart' as const, title: 'Multi-Solver', caption: 'Adaptive integrators' },
 		{ icon: 'zap' as const, title: 'Event Handling', caption: 'Zero-crossing detection' },
-		{ icon: 'star' as const, title: `${githubStats.pathsim.stars}+`, caption: 'GitHub Stars' }
+		{ icon: 'star' as const, title: `${githubStats.current.pathsim.stars}+`, caption: 'GitHub Stars' }
 	];
 
 	// PySimHub tiles
@@ -68,7 +68,7 @@
 		{ icon: 'code' as const, title: 'Submit', caption: 'Your projects' },
 		{ icon: 'users' as const, title: 'Community', caption: 'Open collaboration' },
 		{ icon: 'github' as const, title: 'Open Source', caption: 'MIT licensed' },
-		{ icon: 'star' as const, title: `${githubStats.pysimhub.projects}`, caption: 'Featured Projects' }
+		{ icon: 'star' as const, title: `${githubStats.current.pysimhub.projects}`, caption: 'Featured Projects' }
 	];
 </script>
 

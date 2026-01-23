@@ -1,79 +1,169 @@
 #!/usr/bin/env node
 
 /**
- * Fetches GitHub stats for PathSim and PySimHub
- * Run this script before building to get latest stats
+ * Fetches GitHub stats for PathSim and PySimHub with history tracking.
+ * Preserves historical data - only adds new daily entries.
  */
 
-import { writeFileSync } from 'fs';
+import { readFileSync, writeFileSync } from 'fs';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
+const STATS_PATH = join(__dirname, '..', 'src', 'lib', 'data', 'github-stats.json');
 
-async function fetchStats() {
+function loadExistingData() {
+	try {
+		const content = readFileSync(STATS_PATH, 'utf-8');
+		const data = JSON.parse(content);
+		// Migrate old format if needed
+		if (!data.history) {
+			return {
+				current: {
+					pathsim: data.pathsim || { stars: 0, forks: 0 },
+					pysimhub: data.pysimhub || { projects: 0, members: 0 }
+				},
+				history: [],
+				fetchedAt: data.fetchedAt || null
+			};
+		}
+		return data;
+	} catch {
+		return {
+			current: {
+				pathsim: { stars: 0, forks: 0 },
+				pysimhub: { projects: 0, members: 0 }
+			},
+			history: [],
+			fetchedAt: null
+		};
+	}
+}
+
+function getTodayDate() {
+	return new Date().toISOString().split('T')[0];
+}
+
+async function fetchGitHubRepo(owner, repo) {
+	const response = await fetch(`https://api.github.com/repos/${owner}/${repo}`, {
+		headers: {
+			'Accept': 'application/vnd.github.v3+json',
+			'User-Agent': 'milanrother-website'
+		}
+	});
+
+	if (!response.ok) {
+		throw new Error(`GitHub API error: ${response.status}`);
+	}
+
+	return response.json();
+}
+
+async function fetchOrgMembers(org) {
+	const response = await fetch(`https://api.github.com/orgs/${org}/members?per_page=100`, {
+		headers: {
+			'Accept': 'application/vnd.github.v3+json',
+			'User-Agent': 'milanrother-website'
+		}
+	});
+
+	if (!response.ok) {
+		return [];
+	}
+
+	return response.json();
+}
+
+async function fetchPySimHubProjects() {
+	const response = await fetch('https://pysimhub.io/data/projects.json', {
+		headers: {
+			'User-Agent': 'milanrother-website'
+		}
+	});
+
+	if (!response.ok) {
+		return [];
+	}
+
+	return response.json();
+}
+
+async function main() {
+	const existingData = loadExistingData();
+	const today = getTodayDate();
+
+	// Check if we already have an entry for today
+	const hasToday = existingData.history.some(h => h.date === today);
+
 	const stats = {
-		pathsim: {
-			stars: 0,
-			forks: 0
-		},
-		pysimhub: {
-			projects: 0,
-			members: 0
-		},
-		fetchedAt: new Date().toISOString()
+		pathsim: { stars: 0, forks: 0, watchers: 0, openIssues: 0 },
+		pysimhub: { projects: 0, members: 0 }
 	};
 
 	try {
-		// Fetch PathSim repo stats from GitHub
-		const pathsimResponse = await fetch('https://api.github.com/repos/milanofthe/pathsim', {
-			headers: {
-				'Accept': 'application/vnd.github.v3+json',
-				'User-Agent': 'milanrother-website'
-			}
-		});
+		// Fetch PathSim repo stats
+		console.log('Fetching PathSim stats...');
+		const pathsimData = await fetchGitHubRepo('milanofthe', 'pathsim');
+		stats.pathsim = {
+			stars: pathsimData.stargazers_count || 0,
+			forks: pathsimData.forks_count || 0,
+			watchers: pathsimData.subscribers_count || 0,
+			openIssues: pathsimData.open_issues_count || 0
+		};
+		console.log(`  Stars: ${stats.pathsim.stars}, Forks: ${stats.pathsim.forks}`);
 
-		if (pathsimResponse.ok) {
-			const pathsimData = await pathsimResponse.json();
-			stats.pathsim.stars = pathsimData.stargazers_count || 0;
-			stats.pathsim.forks = pathsimData.forks_count || 0;
-		}
+		// Fetch PySimHub projects
+		console.log('Fetching PySimHub projects...');
+		const projects = await fetchPySimHubProjects();
+		stats.pysimhub.projects = Array.isArray(projects) ? projects.length : 0;
+		console.log(`  Projects: ${stats.pysimhub.projects}`);
 
-		// Fetch PySimHub featured projects from pysimhub.io
-		const projectsResponse = await fetch('https://pysimhub.io/data/projects.json', {
-			headers: {
-				'User-Agent': 'milanrother-website'
-			}
-		});
+		// Fetch PySimHub org members
+		console.log('Fetching PySimHub members...');
+		const members = await fetchOrgMembers('pysimhub');
+		stats.pysimhub.members = Array.isArray(members) ? members.length : 0;
+		console.log(`  Members: ${stats.pysimhub.members}`);
 
-		if (projectsResponse.ok) {
-			const projects = await projectsResponse.json();
-			stats.pysimhub.projects = Array.isArray(projects) ? projects.length : 0;
-		}
-
-		// Fetch PySimHub org members (public)
-		const pysimhubMembersResponse = await fetch('https://api.github.com/orgs/pysimhub/members?per_page=100', {
-			headers: {
-				'Accept': 'application/vnd.github.v3+json',
-				'User-Agent': 'milanrother-website'
-			}
-		});
-
-		if (pysimhubMembersResponse.ok) {
-			const members = await pysimhubMembersResponse.json();
-			stats.pysimhub.members = members.length || 0;
-		}
-
-		console.log('Fetched stats:', stats);
 	} catch (error) {
 		console.error('Error fetching stats:', error.message);
-		console.log('Using fallback stats');
+		// Use existing current values as fallback
+		stats.pathsim = existingData.current.pathsim;
+		stats.pysimhub = existingData.current.pysimhub;
 	}
 
-	// Write stats to JSON file
-	const outputPath = join(__dirname, '..', 'src', 'lib', 'data', 'github-stats.json');
-	writeFileSync(outputPath, JSON.stringify(stats, null, 2));
-	console.log(`Stats written to ${outputPath}`);
+	// Update current stats
+	existingData.current = stats;
+	existingData.fetchedAt = new Date().toISOString();
+
+	// Add to history if we don't have today's entry
+	if (!hasToday) {
+		existingData.history.push({
+			date: today,
+			pathsim: { ...stats.pathsim },
+			pysimhub: { ...stats.pysimhub }
+		});
+		console.log(`Added history entry for ${today}`);
+	} else {
+		// Update today's entry with latest values
+		const todayIndex = existingData.history.findIndex(h => h.date === today);
+		existingData.history[todayIndex] = {
+			date: today,
+			pathsim: { ...stats.pathsim },
+			pysimhub: { ...stats.pysimhub }
+		};
+		console.log(`Updated history entry for ${today}`);
+	}
+
+	// Sort history by date
+	existingData.history.sort((a, b) => a.date.localeCompare(b.date));
+
+	// Write updated stats
+	writeFileSync(STATS_PATH, JSON.stringify(existingData, null, '\t'));
+	console.log(`\nStats written to ${STATS_PATH}`);
+	console.log(`History entries: ${existingData.history.length}`);
 }
 
-fetchStats();
+main().catch((error) => {
+	console.error('Fatal error:', error);
+	process.exit(1);
+});
