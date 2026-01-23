@@ -1,5 +1,5 @@
 <svelte:head>
-	<title>Analytics Dashboard | Milan Rother</title>
+	<title>Analytics | Milan Rother</title>
 	<script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
 </svelte:head>
 
@@ -26,6 +26,17 @@
 
 	const analytics = analyticsRaw as AnalyticsData;
 
+	// Muted color palette
+	const mutedColors: Record<string, string> = {
+		'#377eb8': '#5a8fb8', // pathsim blue - softer
+		'#6366f1': '#8b8df5', // pysimhub purple - softer
+		'#00d9c0': '#4dd9c9'  // teal - softer
+	};
+
+	function getMutedColor(color: string): string {
+		return mutedColors[color] || color;
+	}
+
 	// Selected site state (null = all sites)
 	let selectedSite = $state<string | null>(null);
 
@@ -51,7 +62,6 @@
 				visits: last30.reduce((sum, d) => sum + d.visits, 0)
 			};
 		}
-		// Aggregate all sites
 		let pageViews = 0;
 		let visits = 0;
 		for (const site of Object.values(analytics.sites)) {
@@ -66,6 +76,7 @@
 	function getTimeseriesData() {
 		if (selectedSite && analytics.sites[selectedSite]) {
 			const site = analytics.sites[selectedSite];
+			const color = getMutedColor(site.color);
 			return [
 				{
 					x: site.timeseries.map((d) => d.date),
@@ -73,23 +84,24 @@
 					type: 'scatter',
 					mode: 'lines',
 					name: 'Page Views',
-					line: { color: site.color, width: 2 },
+					line: { color, width: 1.5, shape: 'spline' },
 					fill: 'tozeroy',
-					fillcolor: site.color + '20'
+					fillcolor: 'rgba(0,0,0,0)'
 				}
 			];
 		}
-		// Aggregate all sites into stacked area
 		const traces = [];
 		for (const [hostname, site] of Object.entries(analytics.sites)) {
+			const color = getMutedColor(site.color);
 			traces.push({
 				x: site.timeseries.map((d) => d.date),
 				y: site.timeseries.map((d) => d.pageViews),
 				type: 'scatter',
 				mode: 'lines',
 				name: hostname,
-				line: { color: site.color, width: 2 },
-				stackgroup: 'one'
+				line: { color, width: 1.5, shape: 'spline' },
+				fill: 'tozeroy',
+				fillcolor: 'rgba(0,0,0,0)'
 			});
 		}
 		return traces;
@@ -99,13 +111,14 @@
 	function getReferrersData() {
 		const site = getCurrentSiteData();
 		if (!site?.topReferrers?.length) return [];
+		const color = getMutedColor(site.color);
 		return [
 			{
 				x: site.topReferrers.map((d) => d.pageViews),
 				y: site.topReferrers.map((d) => d.referrer),
 				type: 'bar',
 				orientation: 'h',
-				marker: { color: site.color }
+				marker: { color: 'transparent', line: { color, width: 1 } }
 			}
 		];
 	}
@@ -114,13 +127,14 @@
 	function getCountriesData() {
 		const site = getCurrentSiteData();
 		if (!site?.topCountries?.length) return [];
+		const color = getMutedColor(site.color);
 		return [
 			{
 				x: site.topCountries.map((d) => d.pageViews),
 				y: site.topCountries.map((d) => d.country),
 				type: 'bar',
 				orientation: 'h',
-				marker: { color: site.color }
+				marker: { color: 'transparent', line: { color, width: 1 } }
 			}
 		];
 	}
@@ -128,13 +142,12 @@
 	function formatNumber(num: number): string {
 		if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
 		if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
-		return num.toString();
+		return num.toLocaleString();
 	}
 
 	function formatDate(isoString: string | null): string {
 		if (!isoString) return 'Never';
 		return new Date(isoString).toLocaleDateString('en-US', {
-			year: 'numeric',
 			month: 'short',
 			day: 'numeric',
 			hour: '2-digit',
@@ -152,41 +165,32 @@
 
 <Navigation />
 
-<main class="bg-charcoal min-h-screen pt-24 pb-16">
-	<div class="max-w-6xl mx-auto px-6">
+<main class="bg-charcoal min-h-screen pt-20 pb-12">
+	<div class="max-w-5xl mx-auto px-4">
 		<!-- Header -->
-		<div class="mb-12">
-			<h1 class="font-display text-3xl sm:text-4xl font-bold text-teal uppercase mb-4">
-				Analytics
-			</h1>
-			<p class="text-cream/60">
-				{#if hasSites}
-					Last updated: {formatDate(analytics.lastFetched)}
-				{:else}
-					No analytics data available yet.
-				{/if}
-			</p>
+		<div class="flex items-baseline justify-between mb-8">
+			<h1 class="font-display text-2xl font-semibold text-cream/90">Analytics</h1>
+			{#if hasSites}
+				<span class="text-xs text-cream/40">Updated {formatDate(analytics.lastFetched)}</span>
+			{/if}
 		</div>
 
 		{#if hasSites}
 			<!-- Site Selector -->
-			<div class="flex flex-wrap gap-2 mb-8">
+			<div class="flex flex-wrap gap-1.5 mb-6">
 				<button
-					class="px-4 py-2 rounded-lg text-sm font-medium transition-colors
-						{selectedSite === null
-						? 'bg-teal text-charcoal'
-						: 'bg-charcoal-light text-cream/70 hover:text-cream border border-cream/10'}"
+					class="px-3 py-1.5 rounded text-sm transition-colors {selectedSite === null
+						? 'bg-cream/10 text-cream'
+						: 'text-cream/50 hover:text-cream/70'}"
 					onclick={() => (selectedSite = null)}
 				>
-					All Sites
+					All
 				</button>
 				{#each siteList as site}
-					{@const siteData = analytics.sites[site]}
 					<button
-						class="px-4 py-2 rounded-lg text-sm font-medium transition-colors border"
-						style={selectedSite === site
-							? `background-color: ${siteData.color}; color: #0f0f0f; border-color: ${siteData.color};`
-							: `border-color: rgba(240, 239, 233, 0.1); color: rgba(240, 239, 233, 0.7);`}
+						class="px-3 py-1.5 rounded text-sm transition-colors {selectedSite === site
+							? 'bg-cream/10 text-cream'
+							: 'text-cream/50 hover:text-cream/70'}"
 						onclick={() => (selectedSite = site)}
 					>
 						{site}
@@ -194,141 +198,130 @@
 				{/each}
 			</div>
 
-			<!-- Summary Cards -->
-			<div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
-				<div class="card p-6 text-center">
-					<div class="text-3xl font-display font-bold text-teal mb-1">
-						{formatNumber(summary.pageViews)}
-					</div>
-					<div class="text-sm text-cream/50">Page Views (30d)</div>
+			<!-- Summary -->
+			<div class="flex gap-8 mb-8 text-sm">
+				<div>
+					<span class="text-cream/90 font-medium text-lg">{formatNumber(summary.pageViews)}</span>
+					<span class="text-cream/40 ml-1.5">views</span>
 				</div>
-				<div class="card p-6 text-center">
-					<div class="text-3xl font-display font-bold text-teal mb-1">
-						{formatNumber(summary.visits)}
-					</div>
-					<div class="text-sm text-cream/50">Visits (30d)</div>
+				<div>
+					<span class="text-cream/90 font-medium text-lg">{formatNumber(summary.visits)}</span>
+					<span class="text-cream/40 ml-1.5">visits</span>
 				</div>
-				<div class="card p-6 text-center">
-					<div class="text-3xl font-display font-bold text-cream mb-1">
-						{siteList.length}
-					</div>
-					<div class="text-sm text-cream/50">Sites Tracked</div>
-				</div>
-				<div class="card p-6 text-center">
-					<div class="text-3xl font-display font-bold text-cream mb-1">
-						{#if currentSite}
-							{currentSite.timeseries.length}
-						{:else}
-							{Math.max(...siteList.map((s) => analytics.sites[s].timeseries.length))}
-						{/if}
-					</div>
-					<div class="text-sm text-cream/50">Days of Data</div>
+				<div class="text-cream/40">
+					{#if currentSite}
+						{currentSite.timeseries.length}
+					{:else}
+						{Math.max(...siteList.map((s) => analytics.sites[s].timeseries.length), 0)}
+					{/if}
+					days
 				</div>
 			</div>
 
 			<!-- Time Series Chart -->
-			<div class="card p-6 mb-8">
-				<h2 class="font-display text-lg font-semibold text-cream mb-4">Page Views Over Time</h2>
+			<div class="p-4 rounded-lg bg-cream/[0.02] border border-cream/5 mb-6">
+				<h2 class="text-sm text-cream/50 mb-3">Page Views</h2>
 				{#key selectedSite}
-					<PlotlyChart data={timeseriesData} layout={{ height: 300 }} class="w-full" />
+					<PlotlyChart
+						data={timeseriesData}
+						layout={{ height: 200, margin: { t: 0, r: 10, b: 30, l: 40 } }}
+						class="w-full"
+					/>
 				{/key}
 			</div>
 
 			<!-- Detail Section -->
 			{#if selectedSite && currentSite}
-				<div class="grid md:grid-cols-2 gap-8">
+				<div class="grid md:grid-cols-2 gap-4">
 					<!-- Top Referrers -->
-					<div class="card p-6">
-						<h2 class="font-display text-lg font-semibold text-cream mb-4">Top Referrers</h2>
+					<div class="p-4 rounded-lg bg-cream/[0.02] border border-cream/5">
+						<h2 class="text-sm text-cream/50 mb-3">Referrers</h2>
 						{#if referrersData.length > 0}
 							{#key selectedSite}
 								<PlotlyChart
 									data={referrersData}
-									layout={{ height: 300, yaxis: { automargin: true }, margin: { l: 120 } }}
+									layout={{ height: 180, margin: { t: 0, r: 10, b: 20, l: 100 } }}
 								/>
 							{/key}
 						{:else}
-							<p class="text-cream/50 text-sm">No referrer data available</p>
+							<p class="text-cream/30 text-sm">No data</p>
 						{/if}
 					</div>
 
 					<!-- Top Countries -->
-					<div class="card p-6">
-						<h2 class="font-display text-lg font-semibold text-cream mb-4">Top Countries</h2>
+					<div class="p-4 rounded-lg bg-cream/[0.02] border border-cream/5">
+						<h2 class="text-sm text-cream/50 mb-3">Countries</h2>
 						{#if countriesData.length > 0}
 							{#key selectedSite}
 								<PlotlyChart
 									data={countriesData}
-									layout={{ height: 300, yaxis: { automargin: true }, margin: { l: 120 } }}
+									layout={{ height: 180, margin: { t: 0, r: 10, b: 20, l: 100 } }}
 								/>
 							{/key}
 						{:else}
-							<p class="text-cream/50 text-sm">No country data available</p>
+							<p class="text-cream/30 text-sm">No data</p>
 						{/if}
 					</div>
 
 					<!-- Top Pages -->
-					<div class="card p-6">
-						<h2 class="font-display text-lg font-semibold text-cream mb-4">Top Pages</h2>
+					<div class="p-4 rounded-lg bg-cream/[0.02] border border-cream/5">
+						<h2 class="text-sm text-cream/50 mb-3">Pages</h2>
 						{#if currentSite.topPages?.length > 0}
-							<ul class="space-y-3">
-								{#each currentSite.topPages.slice(0, 10) as page}
+							<ul class="space-y-2">
+								{#each currentSite.topPages.slice(0, 8) as page}
 									<li class="flex justify-between items-center text-sm">
-										<span class="text-cream/70 truncate pr-4 font-mono text-xs">{page.path}</span>
-										<span class="text-teal font-mono">{formatNumber(page.pageViews)}</span>
+										<span class="text-cream/60 truncate pr-4 font-mono text-xs">{page.path}</span>
+										<span class="text-cream/40 font-mono text-xs">{formatNumber(page.pageViews)}</span>
 									</li>
 								{/each}
 							</ul>
 						{:else}
-							<p class="text-cream/50 text-sm">No page data available</p>
+							<p class="text-cream/30 text-sm">No data</p>
 						{/if}
 					</div>
 
 					<!-- Top Browsers -->
-					<div class="card p-6">
-						<h2 class="font-display text-lg font-semibold text-cream mb-4">Browsers</h2>
+					<div class="p-4 rounded-lg bg-cream/[0.02] border border-cream/5">
+						<h2 class="text-sm text-cream/50 mb-3">Browsers</h2>
 						{#if currentSite.topBrowsers?.length > 0}
-							<ul class="space-y-3">
+							<ul class="space-y-2">
 								{#each currentSite.topBrowsers as browser}
 									<li class="flex justify-between items-center text-sm">
-										<span class="text-cream/70">{browser.browser}</span>
-										<span class="text-teal font-mono">{formatNumber(browser.pageViews)}</span>
+										<span class="text-cream/60">{browser.browser}</span>
+										<span class="text-cream/40 font-mono text-xs">{formatNumber(browser.pageViews)}</span>
 									</li>
 								{/each}
 							</ul>
 						{:else}
-							<p class="text-cream/50 text-sm">No browser data available</p>
+							<p class="text-cream/30 text-sm">No data</p>
 						{/if}
 					</div>
 				</div>
 			{:else}
-				<!-- Site Overview Cards when "All Sites" selected -->
-				<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+				<!-- Site Overview Cards -->
+				<div class="grid md:grid-cols-3 gap-4">
 					{#each siteList as site}
 						{@const siteData = analytics.sites[site]}
 						{@const last30 = siteData.timeseries.slice(-30)}
 						{@const sitePageViews = last30.reduce((sum, d) => sum + d.pageViews, 0)}
 						{@const siteVisits = last30.reduce((sum, d) => sum + d.visits, 0)}
 						<button
-							class="card p-6 text-left transition-all hover:border-cream/30"
+							class="p-4 rounded-lg bg-cream/[0.02] border border-cream/5 text-left transition-all hover:bg-cream/[0.04] hover:border-cream/10"
 							onclick={() => (selectedSite = site)}
 						>
-							<div class="flex items-center gap-3 mb-4">
-								<div class="w-3 h-3 rounded-full" style="background-color: {siteData.color}"></div>
-								<h3 class="font-display font-semibold text-cream">{site}</h3>
+							<div class="flex items-center gap-2 mb-3">
+								<div class="w-2 h-2 rounded-full opacity-60" style="background-color: {siteData.color}"></div>
+								<span class="text-sm text-cream/70">{site}</span>
 							</div>
-							<div class="grid grid-cols-2 gap-4 text-sm">
+							<div class="flex gap-4 text-sm">
 								<div>
-									<div class="text-cream font-semibold">{formatNumber(sitePageViews)}</div>
-									<div class="text-cream/50">Page Views</div>
+									<span class="text-cream/80">{formatNumber(sitePageViews)}</span>
+									<span class="text-cream/30 ml-1">views</span>
 								</div>
 								<div>
-									<div class="text-cream font-semibold">{formatNumber(siteVisits)}</div>
-									<div class="text-cream/50">Visits</div>
+									<span class="text-cream/80">{formatNumber(siteVisits)}</span>
+									<span class="text-cream/30 ml-1">visits</span>
 								</div>
-							</div>
-							<div class="mt-4 text-xs text-cream/40">
-								{siteData.timeseries.length} days of data
 							</div>
 						</button>
 					{/each}
@@ -336,21 +329,13 @@
 			{/if}
 		{:else}
 			<!-- Empty State -->
-			<div class="card p-12 text-center">
-				<div class="w-16 h-16 rounded-full bg-teal/10 flex items-center justify-center mx-auto mb-4">
-					<Icons name="chart" class="w-8 h-8 text-teal" />
-				</div>
-				<h2 class="font-display text-xl font-semibold text-cream mb-2">No Data Yet</h2>
-				<p class="text-cream/60 max-w-md mx-auto">
-					Analytics data will appear here once the fetch workflow runs. Configure your Cloudflare
-					API credentials in GitHub secrets and trigger the workflow.
-				</p>
+			<div class="text-center py-16">
+				<Icons name="chart" class="w-8 h-8 text-cream/20 mx-auto mb-3" />
+				<p class="text-cream/40 text-sm">No analytics data yet</p>
 			</div>
 		{/if}
 
-		<!-- Footer Note -->
-		<p class="text-xs text-cream/30 mt-12 text-center">
-			Data from Cloudflare Web Analytics
-		</p>
+		<!-- Footer -->
+		<p class="text-xs text-cream/20 mt-12 text-center">Cloudflare Web Analytics</p>
 	</div>
 </main>
