@@ -1,5 +1,5 @@
 {
-	"lastFetched": "2026-01-24T14:30:21.901Z",
+	"lastFetched": "2026-01-24T15:04:44.575Z",
 	"sites": {
 		"pathsim.org": {
 			"name": "pathsim.org",
@@ -9,6 +9,16 @@
 					"datetime": "2026-01-24T08:00:00",
 					"pageViews": 10,
 					"visits": 10
+				},
+				{
+					"datetime": "2026-01-24T12:00:00",
+					"pageViews": 2,
+					"visits": 2
+				},
+				{
+					"datetime": "2026-01-24T16:00:00",
+					"pageViews": 1,
+					"visits": 1
 				}
 			],
 			"topPages": [
@@ -44,6 +54,16 @@
 					"datetime": "2026-01-24T08:00:00",
 					"pageViews": 10,
 					"visits": 10
+				},
+				{
+					"datetime": "2026-01-24T12:00:00",
+					"pageViews": 4,
+					"visits": 4
+				},
+				{
+					"datetime": "2026-01-24T16:00:00",
+					"pageViews": 8,
+					"visits": 5
 				}
 			],
 			"topPages": [
@@ -217,6 +237,11 @@
 				},
 				{
 					"datetime": "2026-01-24T08:00:00",
+					"pageViews": 1,
+					"visits": 1
+				},
+				{
+					"datetime": "2026-01-24T12:00:00",
 					"pageViews": 1,
 					"visits": 1
 				}
@@ -448,6 +473,16 @@
 					"datetime": "2026-01-24T08:00:00",
 					"pageViews": 1,
 					"visits": 1
+				},
+				{
+					"datetime": "2026-01-24T12:00:00",
+					"pageViews": 4,
+					"visits": 4
+				},
+				{
+					"datetime": "2026-01-24T16:00:00",
+					"pageViews": 5,
+					"visits": 3
 				}
 			],
 			"topPages": [
@@ -582,16 +617,26 @@
 					"datetime": "2026-01-24T08:00:00",
 					"pageViews": 19,
 					"visits": 19
+				},
+				{
+					"datetime": "2026-01-24T12:00:00",
+					"pageViews": 32,
+					"visits": 32
+				},
+				{
+					"datetime": "2026-01-24T16:00:00",
+					"pageViews": 18,
+					"visits": 16
 				}
 			],
 			"topPages": [
 				{
-					"path": "/",
+					"path": "/dashboard/",
 					"pageViews": 90
 				},
 				{
-					"path": "/dashboard/",
-					"pageViews": 80
+					"path": "/",
+					"pageViews": 90
 				}
 			],
 			"topReferrers": [
@@ -603,7 +648,7 @@
 			"topCountries": [
 				{
 					"country": "DE",
-					"pageViews": 150
+					"pageViews": 160
 				},
 				{
 					"country": "US",
@@ -613,7 +658,7 @@
 			"topBrowsers": [
 				{
 					"browser": "Chrome",
-					"pageViews": 80
+					"pageViews": 90
 				},
 				{
 					"browser": "MobileSafari",
