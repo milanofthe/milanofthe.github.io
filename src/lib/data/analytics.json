@@ -1,5 +1,5 @@
 {
-	"lastFetched": "2026-01-23T19:50:11.230Z",
+	"lastFetched": "2026-01-24T08:37:13.152Z",
 	"sites": {
 		"view.pathsim.org": {
 			"name": "view.pathsim.org",
@@ -511,7 +511,7 @@
 				},
 				{
 					"path": "/dashboard/",
-					"pageViews": 10
+					"pageViews": 20
 				}
 			],
 			"topReferrers": [
@@ -523,7 +523,7 @@
 			"topCountries": [
 				{
 					"country": "DE",
-					"pageViews": 80
+					"pageViews": 90
 				},
 				{
 					"country": "US",
@@ -537,7 +537,7 @@
 				},
 				{
 					"browser": "Chrome",
-					"pageViews": 20
+					"pageViews": 30
 				},
 				{
 					"browser": "ChromeHeadless",

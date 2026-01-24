@@ -24,7 +24,20 @@
 				"projects": 12,
 				"members": 3
 			}
+		},
+		{
+			"date": "2026-01-24",
+			"pathsim": {
+				"stars": 226,
+				"forks": 20,
+				"watchers": 6,
+				"openIssues": 14
+			},
+			"pysimhub": {
+				"projects": 12,
+				"members": 3
+			}
 		}
 	],
-	"fetchedAt": "2026-01-23T19:50:18.574Z"
+	"fetchedAt": "2026-01-24T08:37:17.019Z"
 }
