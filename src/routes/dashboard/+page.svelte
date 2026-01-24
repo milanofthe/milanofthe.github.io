@@ -4,10 +4,10 @@
 </svelte:head>
 
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import Navigation from '$lib/components/Navigation.svelte';
 	import Icons from '$lib/components/Icons.svelte';
 	import PlotlyChart from '$lib/components/PlotlyChart.svelte';
-	import analyticsRaw from '$lib/data/analytics.json';
 
 	interface SiteData {
 		name: string;
@@ -24,15 +24,37 @@
 		sites: Record<string, SiteData>;
 	}
 
-	const analytics = analyticsRaw as AnalyticsData;
+	const DATA_URL = 'https://raw.githubusercontent.com/milanofthe/milanofthe.github.io/main/src/lib/data/analytics.json';
+
+	let loading = $state(true);
+	let error = $state<string | null>(null);
+	let analytics = $state<AnalyticsData>({ lastFetched: null, sites: {} });
+
+	async function fetchData() {
+		loading = true;
+		error = null;
+		try {
+			const response = await fetch(DATA_URL);
+			if (!response.ok) throw new Error(`HTTP ${response.status}`);
+			analytics = await response.json();
+		} catch (e) {
+			error = e instanceof Error ? e.message : 'Failed to load data';
+		} finally {
+			loading = false;
+		}
+	}
+
+	onMount(() => {
+		fetchData();
+	});
 
 
 	// Selected site state (null = all sites)
 	let selectedSite = $state<string | null>(null);
 
-	// List of available sites
-	const siteList = Object.keys(analytics.sites);
-	const hasSites = siteList.length > 0;
+	// List of available sites (reactive)
+	let siteList = $derived(Object.keys(analytics.sites));
+	let hasSites = $derived(siteList.length > 0);
 
 	// Get current site data
 	function getCurrentSiteData(): SiteData | null {
@@ -206,7 +228,26 @@
 			{/if}
 		</div>
 
-		{#if hasSites}
+		{#if loading}
+			<!-- Loading State -->
+			<div class="text-center py-16">
+				<div class="w-6 h-6 border-2 border-cream/20 border-t-cream/60 rounded-full animate-spin mx-auto mb-3"></div>
+				<p class="text-cream/40 text-sm">Loading analytics...</p>
+			</div>
+		{:else if error}
+			<!-- Error State -->
+			<div class="text-center py-16">
+				<Icons name="chart" class="w-8 h-8 text-red-400/60 mx-auto mb-3" />
+				<p class="text-cream/60 text-sm mb-4">Failed to load analytics</p>
+				<p class="text-cream/30 text-xs mb-4">{error}</p>
+				<button
+					onclick={() => fetchData()}
+					class="px-4 py-2 text-sm bg-cream/10 hover:bg-cream/15 text-cream/70 rounded transition-colors"
+				>
+					Retry
+				</button>
+			</div>
+		{:else if hasSites}
 			<!-- Site Selector -->
 			<div class="flex flex-wrap gap-1.5 mb-6">
 				<button

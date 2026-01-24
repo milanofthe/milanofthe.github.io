@@ -100,7 +100,8 @@ async function graphqlRequest(query, variables) {
 	return json.data;
 }
 
-// Convert hour to 4-hour bucket in CET (0, 4, 8, 12, 16, 20)
+// Convert hour to 4-hour bucket end time in CET (4, 8, 12, 16, 20, 24)
+// Label represents the END of the 4-hour period (e.g., "12:00" = data from 08:00-12:00)
 function get4HourBucket(datetimeHour) {
 	// datetimeHour format: "2026-01-23T14:00:00Z"
 	const date = new Date(datetimeHour);
@@ -117,9 +118,10 @@ function get4HourBucket(datetimeHour) {
 	// Format: "2026-01-23, 15" -> extract date and hour
 	const [datePart, hourPart] = cetString.split(', ');
 	const cetHour = parseInt(hourPart, 10);
-	const bucketHour = Math.floor(cetHour / 4) * 4;
+	// Use end of bucket: ceil to next 4-hour mark (1-4 -> 4, 5-8 -> 8, etc.)
+	const bucketEndHour = Math.ceil((cetHour + 1) / 4) * 4;
 
-	return `${datePart}T${String(bucketHour).padStart(2, '0')}:00:00`;
+	return `${datePart}T${String(bucketEndHour).padStart(2, '0')}:00:00`;
 }
 
 async function fetchTimeseriesForSite(site, startDate, endDate) {
