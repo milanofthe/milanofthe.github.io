@@ -1,7 +1,27 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import Navigation from '$lib/components/Navigation.svelte';
 	import Icons from '$lib/components/Icons.svelte';
-	import githubStats from '$lib/data/github-stats.json';
+
+	const STATS_URL = 'https://raw.githubusercontent.com/milanofthe/milanofthe.github.io/main/src/lib/data/github-stats.json';
+
+	let githubStats = $state({
+		current: {
+			pathsim: { stars: 0 },
+			pysimhub: { projects: 0 }
+		}
+	});
+
+	onMount(async () => {
+		try {
+			const response = await fetch(STATS_URL, { cache: 'no-store' });
+			if (response.ok) {
+				githubStats = await response.json();
+			}
+		} catch {
+			// Keep default values on error
+		}
+	});
 
 	// Contact form state
 	let formStatus = $state<'idle' | 'submitting' | 'success' | 'error'>('idle');
@@ -53,23 +73,23 @@
 		}
 	];
 
-	// PathSim tiles with stats
-	const pathsimTiles = [
+	// PathSim tiles with stats (reactive)
+	let pathsimTiles = $derived([
 		{ icon: 'cpu' as const, title: 'Hot-Swappable', caption: 'Runtime changes' },
 		{ icon: 'layers' as const, title: 'Hierarchical', caption: 'Nested subsystems' },
 		{ icon: 'chart' as const, title: 'Multi-Solver', caption: 'Adaptive integrators' },
 		{ icon: 'zap' as const, title: 'Event Handling', caption: 'Zero-crossing detection' },
 		{ icon: 'star' as const, title: `${githubStats.current.pathsim.stars}+`, caption: 'GitHub Stars' }
-	];
+	]);
 
-	// PySimHub tiles
-	const pysimhubTiles = [
+	// PySimHub tiles (reactive)
+	let pysimhubTiles = $derived([
 		{ icon: 'layers' as const, title: 'Browse', caption: 'Simulation libraries' },
 		{ icon: 'code' as const, title: 'Submit', caption: 'Your projects' },
 		{ icon: 'users' as const, title: 'Community', caption: 'Open collaboration' },
 		{ icon: 'github' as const, title: 'Open Source', caption: 'MIT licensed' },
 		{ icon: 'star' as const, title: `${githubStats.current.pysimhub.projects}`, caption: 'Featured Projects' }
-	];
+	]);
 </script>
 
 <Navigation />
