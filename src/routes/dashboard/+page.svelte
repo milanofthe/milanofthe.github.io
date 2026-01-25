@@ -87,6 +87,14 @@
 	// 3.5 hours in milliseconds for bar width (narrower to reduce overlap)
 	const barWidthMs = 3.5 * 60 * 60 * 1000;
 
+	// Shift datetime back by 2 hours to center bars on their period
+	// e.g., "12:00" (representing 08:00-12:00) becomes "10:00" (center of period)
+	function centerDatetime(datetime: string): string {
+		const date = new Date(datetime);
+		date.setHours(date.getHours() - 2);
+		return date.toISOString().slice(0, 19);
+	}
+
 	// Build time series chart data for page views
 	function getPageViewsData() {
 		if (selectedSite && analytics.sites[selectedSite]) {
@@ -94,7 +102,7 @@
 			const color = site.color;
 			return [
 				{
-					x: site.timeseries.map((d) => d.datetime),
+					x: site.timeseries.map((d) => centerDatetime(d.datetime)),
 					y: site.timeseries.map((d) => d.pageViews),
 					type: 'bar',
 					name: 'Page Views',
@@ -109,7 +117,7 @@
 		siteEntries.forEach(([hostname, site]) => {
 			const color = site.color;
 			traces.push({
-				x: site.timeseries.map((d) => d.datetime),
+				x: site.timeseries.map((d) => centerDatetime(d.datetime)),
 				y: site.timeseries.map((d) => d.pageViews),
 				type: 'bar',
 				name: hostname,
@@ -127,7 +135,7 @@
 			const color = site.color;
 			return [
 				{
-					x: site.timeseries.map((d) => d.datetime),
+					x: site.timeseries.map((d) => centerDatetime(d.datetime)),
 					y: site.timeseries.map((d) => d.visits),
 					type: 'bar',
 					name: 'Visits',
@@ -142,7 +150,7 @@
 		siteEntries.forEach(([hostname, site]) => {
 			const color = site.color;
 			traces.push({
-				x: site.timeseries.map((d) => d.datetime),
+				x: site.timeseries.map((d) => centerDatetime(d.datetime)),
 				y: site.timeseries.map((d) => d.visits),
 				type: 'bar',
 				name: hostname,
