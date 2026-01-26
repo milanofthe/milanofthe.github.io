@@ -50,7 +50,20 @@
 				"projects": 12,
 				"members": 3
 			}
+		},
+		{
+			"date": "2026-01-26",
+			"pathsim": {
+				"stars": 227,
+				"forks": 20,
+				"watchers": 6,
+				"openIssues": 14
+			},
+			"pysimhub": {
+				"projects": 12,
+				"members": 3
+			}
 		}
 	],
-	"fetchedAt": "2026-01-25T20:29:24.196Z"
+	"fetchedAt": "2026-01-26T02:19:44.016Z"
 }
