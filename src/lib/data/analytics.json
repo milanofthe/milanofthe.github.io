@@ -1,5 +1,5 @@
 {
-	"lastFetched": "2026-01-27T02:10:28.090Z",
+	"lastFetched": "2026-01-27T04:51:06.763Z",
 	"sites": {
 		"pathsim.org": {
 			"name": "pathsim.org",
@@ -259,6 +259,16 @@
 					"datetime": "2026-01-26T24:00:00",
 					"pageViews": 1,
 					"visits": 1
+				},
+				{
+					"datetime": "2026-01-27T04:00:00",
+					"pageViews": 20,
+					"visits": 16
+				},
+				{
+					"datetime": "2026-01-27T08:00:00",
+					"pageViews": 1,
+					"visits": 1
 				}
 			],
 			"aggregateHistory": [
@@ -448,6 +458,10 @@
 							"pageViews": 30
 						},
 						{
+							"path": "/pathsim/v0.16.1/examples",
+							"pageViews": 20
+						},
+						{
 							"path": "/en/v0.6.7/modules/pathsim.solvers.bdf.html",
 							"pageViews": 10
 						},
@@ -476,18 +490,14 @@
 							"pageViews": 10
 						},
 						{
-							"path": "/en/v0.6.5/modules/pathsim.solvers.ssprk22.html",
-							"pageViews": 10
-						},
-						{
-							"path": "/pathsim/v0.16.5/api",
+							"path": "/en/latest/modules/pathsim.blocks.html",
 							"pageViews": 10
 						}
 					],
 					"topReferrers": [
 						{
 							"referrer": "docs.pathsim.org",
-							"pageViews": 30
+							"pageViews": 50
 						},
 						{
 							"referrer": "pathsim.org",
@@ -501,7 +511,7 @@
 					"topCountries": [
 						{
 							"country": "US",
-							"pageViews": 40
+							"pageViews": 60
 						},
 						{
 							"country": "SG",
@@ -543,7 +553,7 @@
 					"topBrowsers": [
 						{
 							"browser": "Chrome",
-							"pageViews": 70
+							"pageViews": 90
 						},
 						{
 							"browser": "Unknown",
@@ -568,6 +578,10 @@
 				{
 					"path": "/en/v0.12.3/_modules/pathsim/blocks/ctrl.html",
 					"pageViews": 30
+				},
+				{
+					"path": "/pathsim/v0.16.1/examples",
+					"pageViews": 20
 				},
 				{
 					"path": "/en/v0.6.7/modules/pathsim.solvers.bdf.html",
@@ -598,18 +612,14 @@
 					"pageViews": 10
 				},
 				{
-					"path": "/en/v0.6.5/modules/pathsim.solvers.ssprk22.html",
-					"pageViews": 10
-				},
-				{
-					"path": "/pathsim/v0.16.5/api",
+					"path": "/en/latest/modules/pathsim.blocks.html",
 					"pageViews": 10
 				}
 			],
 			"topReferrers": [
 				{
 					"referrer": "docs.pathsim.org",
-					"pageViews": 30
+					"pageViews": 50
 				},
 				{
 					"referrer": "pathsim.org",
@@ -623,7 +633,7 @@
 			"topCountries": [
 				{
 					"country": "US",
-					"pageViews": 40
+					"pageViews": 60
 				},
 				{
 					"country": "SG",
@@ -665,7 +675,7 @@
 			"topBrowsers": [
 				{
 					"browser": "Chrome",
-					"pageViews": 70
+					"pageViews": 90
 				},
 				{
 					"browser": "Unknown",
@@ -888,6 +898,11 @@
 					"datetime": "2026-01-26T24:00:00",
 					"pageViews": 2,
 					"visits": 2
+				},
+				{
+					"datetime": "2026-01-27T04:00:00",
+					"pageViews": 1,
+					"visits": 1
 				}
 			],
 			"aggregateHistory": [
