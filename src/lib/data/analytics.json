@@ -1,5 +1,5 @@
 {
-	"lastFetched": "2026-01-30T16:45:14.911Z",
+	"lastFetched": "2026-01-30T20:35:40.334Z",
 	"sites": {
 		"pathsim.org": {
 			"name": "pathsim.org",
@@ -139,6 +139,11 @@
 					"datetime": "2026-01-30T16:00:00",
 					"pageViews": 8,
 					"visits": 8
+				},
+				{
+					"datetime": "2026-01-30T20:00:00",
+					"pageViews": 1,
+					"visits": 1
 				}
 			],
 			"aggregateHistory": [
@@ -1942,6 +1947,11 @@
 					"datetime": "2026-01-30T16:00:00",
 					"pageViews": 12,
 					"visits": 12
+				},
+				{
+					"datetime": "2026-01-30T20:00:00",
+					"pageViews": 2,
+					"visits": 2
 				}
 			],
 			"aggregateHistory": [
@@ -2365,7 +2375,7 @@
 					"topPages": [
 						{
 							"path": "/",
-							"pageViews": 750
+							"pageViews": 760
 						},
 						{
 							"path": "/dev/",
@@ -2416,6 +2426,10 @@
 							"pageViews": 160
 						},
 						{
+							"country": "GB",
+							"pageViews": 40
+						},
+						{
 							"country": "IN",
 							"pageViews": 40
 						},
@@ -2425,10 +2439,6 @@
 						},
 						{
 							"country": "ES",
-							"pageViews": 30
-						},
-						{
-							"country": "GB",
 							"pageViews": 30
 						},
 						{
@@ -2451,7 +2461,7 @@
 					"topBrowsers": [
 						{
 							"browser": "Chrome",
-							"pageViews": 500
+							"pageViews": 510
 						},
 						{
 							"browser": "ChromeMobile",
@@ -2475,7 +2485,7 @@
 			"topPages": [
 				{
 					"path": "/",
-					"pageViews": 750
+					"pageViews": 760
 				},
 				{
 					"path": "/dev/",
@@ -2526,6 +2536,10 @@
 					"pageViews": 160
 				},
 				{
+					"country": "GB",
+					"pageViews": 40
+				},
+				{
 					"country": "IN",
 					"pageViews": 40
 				},
@@ -2535,10 +2549,6 @@
 				},
 				{
 					"country": "ES",
-					"pageViews": 30
-				},
-				{
-					"country": "GB",
 					"pageViews": 30
 				},
 				{
@@ -2561,7 +2571,7 @@
 			"topBrowsers": [
 				{
 					"browser": "Chrome",
-					"pageViews": 500
+					"pageViews": 510
 				},
 				{
 					"browser": "ChromeMobile",
@@ -2843,6 +2853,11 @@
 				{
 					"datetime": "2026-01-30T16:00:00",
 					"pageViews": 3,
+					"visits": 1
+				},
+				{
+					"datetime": "2026-01-30T20:00:00",
+					"pageViews": 1,
 					"visits": 1
 				}
 			],

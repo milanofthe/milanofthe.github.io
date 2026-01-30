@@ -1,7 +1,7 @@
 {
 	"current": {
 		"pathsim": {
-			"stars": 234,
+			"stars": 235,
 			"forks": 20,
 			"watchers": 6,
 			"openIssues": 15
@@ -106,7 +106,7 @@
 		{
 			"date": "2026-01-30",
 			"pathsim": {
-				"stars": 234,
+				"stars": 235,
 				"forks": 20,
 				"watchers": 6,
 				"openIssues": 15
@@ -117,5 +117,5 @@
 			}
 		}
 	],
-	"fetchedAt": "2026-01-30T16:45:24.505Z"
+	"fetchedAt": "2026-01-30T20:35:51.090Z"
 }
