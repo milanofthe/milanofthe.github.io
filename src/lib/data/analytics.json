@@ -1,5 +1,5 @@
 {
-	"lastFetched": "2026-01-31T02:23:26.731Z",
+	"lastFetched": "2026-01-31T05:03:41.591Z",
 	"sites": {
 		"pathsim.org": {
 			"name": "pathsim.org",
@@ -492,7 +492,7 @@
 					"topPages": [
 						{
 							"path": "/",
-							"pageViews": 300
+							"pageViews": 310
 						}
 					],
 					"topReferrers": [
@@ -528,7 +528,7 @@
 						},
 						{
 							"country": "US",
-							"pageViews": 50
+							"pageViews": 60
 						},
 						{
 							"country": "FR",
@@ -577,11 +577,11 @@
 							"pageViews": 40
 						},
 						{
-							"browser": "SamsungInternet",
-							"pageViews": 20
+							"browser": "Edge",
+							"pageViews": 30
 						},
 						{
-							"browser": "MobileSafari",
+							"browser": "SamsungInternet",
 							"pageViews": 20
 						}
 					]
@@ -590,7 +590,7 @@
 			"topPages": [
 				{
 					"path": "/",
-					"pageViews": 300
+					"pageViews": 310
 				}
 			],
 			"topReferrers": [
@@ -626,7 +626,7 @@
 				},
 				{
 					"country": "US",
-					"pageViews": 50
+					"pageViews": 60
 				},
 				{
 					"country": "FR",
@@ -675,11 +675,11 @@
 					"pageViews": 40
 				},
 				{
-					"browser": "SamsungInternet",
-					"pageViews": 20
+					"browser": "Edge",
+					"pageViews": 30
 				},
 				{
-					"browser": "MobileSafari",
+					"browser": "SamsungInternet",
 					"pageViews": 20
 				}
 			]
@@ -1631,7 +1631,7 @@
 					"date": "2026-01-31",
 					"topPages": [
 						{
-							"path": "/pathsim/v0.16.7/examples",
+							"path": "/pathsim",
 							"pageViews": 60
 						},
 						{
@@ -1639,7 +1639,7 @@
 							"pageViews": 60
 						},
 						{
-							"path": "/pathsim",
+							"path": "/pathsim/v0.16.7/examples",
 							"pageViews": 60
 						},
 						{
@@ -1655,26 +1655,26 @@
 							"pageViews": 30
 						},
 						{
-							"path": "/en/latest/modules/pathsim.blocks.sources.html",
-							"pageViews": 20
-						},
-						{
 							"path": "/en/latest/examples/stick_slip.html",
 							"pageViews": 20
 						},
 						{
-							"path": "/en/v0.8.1/modules/pathsim.solvers.bdf.html",
+							"path": "/vehicle",
 							"pageViews": 20
 						},
 						{
-							"path": "/vehicle",
+							"path": "/pathsim/v0.16.1/examples",
+							"pageViews": 20
+						},
+						{
+							"path": "/en/latest/modules/pathsim.blocks.sources.html",
 							"pageViews": 20
 						}
 					],
 					"topReferrers": [
 						{
 							"referrer": "docs.pathsim.org",
-							"pageViews": 130
+							"pageViews": 150
 						},
 						{
 							"referrer": "pathsim.org",
@@ -1712,7 +1712,7 @@
 					"topCountries": [
 						{
 							"country": "US",
-							"pageViews": 190
+							"pageViews": 210
 						},
 						{
 							"country": "DE",
@@ -1777,7 +1777,7 @@
 			],
 			"topPages": [
 				{
-					"path": "/pathsim/v0.16.7/examples",
+					"path": "/pathsim",
 					"pageViews": 60
 				},
 				{
@@ -1785,7 +1785,7 @@
 					"pageViews": 60
 				},
 				{
-					"path": "/pathsim",
+					"path": "/pathsim/v0.16.7/examples",
 					"pageViews": 60
 				},
 				{
@@ -1801,26 +1801,26 @@
 					"pageViews": 30
 				},
 				{
-					"path": "/en/latest/modules/pathsim.blocks.sources.html",
-					"pageViews": 20
-				},
-				{
 					"path": "/en/latest/examples/stick_slip.html",
 					"pageViews": 20
 				},
 				{
-					"path": "/en/v0.8.1/modules/pathsim.solvers.bdf.html",
+					"path": "/vehicle",
 					"pageViews": 20
 				},
 				{
-					"path": "/vehicle",
+					"path": "/pathsim/v0.16.1/examples",
+					"pageViews": 20
+				},
+				{
+					"path": "/en/latest/modules/pathsim.blocks.sources.html",
 					"pageViews": 20
 				}
 			],
 			"topReferrers": [
 				{
 					"referrer": "docs.pathsim.org",
-					"pageViews": 130
+					"pageViews": 150
 				},
 				{
 					"referrer": "pathsim.org",
@@ -1858,7 +1858,7 @@
 			"topCountries": [
 				{
 					"country": "US",
-					"pageViews": 190
+					"pageViews": 210
 				},
 				{
 					"country": "DE",
@@ -2223,6 +2223,11 @@
 					"datetime": "2026-01-30T24:00:00",
 					"pageViews": 5,
 					"visits": 5
+				},
+				{
+					"datetime": "2026-01-31T04:00:00",
+					"pageViews": 2,
+					"visits": 2
 				}
 			],
 			"aggregateHistory": [
