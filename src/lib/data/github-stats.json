@@ -1,9 +1,9 @@
 {
 	"current": {
 		"pathsim": {
-			"stars": 240,
+			"stars": 241,
 			"forks": 20,
-			"watchers": 6,
+			"watchers": 7,
 			"openIssues": 15
 		},
 		"pysimhub": {
@@ -145,9 +145,9 @@
 		{
 			"date": "2026-02-02",
 			"pathsim": {
-				"stars": 240,
+				"stars": 241,
 				"forks": 20,
-				"watchers": 6,
+				"watchers": 7,
 				"openIssues": 15
 			},
 			"pysimhub": {
@@ -156,5 +156,5 @@
 			}
 		}
 	],
-	"fetchedAt": "2026-02-02T05:25:43.135Z"
+	"fetchedAt": "2026-02-02T08:51:37.014Z"
 }
