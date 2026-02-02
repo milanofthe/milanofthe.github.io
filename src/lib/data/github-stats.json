@@ -141,7 +141,20 @@
 				"projects": 14,
 				"members": 3
 			}
+		},
+		{
+			"date": "2026-02-02",
+			"pathsim": {
+				"stars": 240,
+				"forks": 20,
+				"watchers": 6,
+				"openIssues": 15
+			},
+			"pysimhub": {
+				"projects": 14,
+				"members": 3
+			}
 		}
 	],
-	"fetchedAt": "2026-02-01T20:32:24.526Z"
+	"fetchedAt": "2026-02-02T02:37:24.571Z"
 }
