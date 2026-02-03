@@ -1,5 +1,5 @@
 {
-	"lastFetched": "2026-02-03T02:34:18.307Z",
+	"lastFetched": "2026-02-03T05:16:26.052Z",
 	"sites": {
 		"pathsim.org": {
 			"name": "pathsim.org",
@@ -2572,11 +2572,11 @@
 							"pageViews": 110
 						},
 						{
-							"path": "/pathsim/v0.16.7/api",
+							"path": "/pathsim/",
 							"pageViews": 90
 						},
 						{
-							"path": "/pathsim/",
+							"path": "/pathsim/v0.16.7/api",
 							"pageViews": 90
 						},
 						{
@@ -2588,11 +2588,11 @@
 							"pageViews": 50
 						},
 						{
-							"path": "/en/latest/examples/stick_slip.html",
+							"path": "/en/v0.12.3/_modules/pathsim/blocks/ctrl.html",
 							"pageViews": 30
 						},
 						{
-							"path": "/en/v0.12.3/_modules/pathsim/blocks/ctrl.html",
+							"path": "/en/latest/examples/stick_slip.html",
 							"pageViews": 30
 						},
 						{
@@ -2656,15 +2656,15 @@
 							"pageViews": 70
 						},
 						{
+							"country": "SG",
+							"pageViews": 60
+						},
+						{
 							"country": "NO",
 							"pageViews": 50
 						},
 						{
 							"country": "ES",
-							"pageViews": 50
-						},
-						{
-							"country": "SG",
 							"pageViews": 50
 						},
 						{
@@ -2683,7 +2683,7 @@
 					"topBrowsers": [
 						{
 							"browser": "Chrome",
-							"pageViews": 680
+							"pageViews": 690
 						},
 						{
 							"browser": "ChromeMobile",
@@ -2694,11 +2694,11 @@
 							"pageViews": 110
 						},
 						{
-							"browser": "Edge",
+							"browser": "Firefox",
 							"pageViews": 100
 						},
 						{
-							"browser": "Firefox",
+							"browser": "Edge",
 							"pageViews": 100
 						}
 					]
@@ -2718,11 +2718,11 @@
 					"pageViews": 110
 				},
 				{
-					"path": "/pathsim/v0.16.7/api",
+					"path": "/pathsim/",
 					"pageViews": 90
 				},
 				{
-					"path": "/pathsim/",
+					"path": "/pathsim/v0.16.7/api",
 					"pageViews": 90
 				},
 				{
@@ -2734,11 +2734,11 @@
 					"pageViews": 50
 				},
 				{
-					"path": "/en/latest/examples/stick_slip.html",
+					"path": "/en/v0.12.3/_modules/pathsim/blocks/ctrl.html",
 					"pageViews": 30
 				},
 				{
-					"path": "/en/v0.12.3/_modules/pathsim/blocks/ctrl.html",
+					"path": "/en/latest/examples/stick_slip.html",
 					"pageViews": 30
 				},
 				{
@@ -2802,15 +2802,15 @@
 					"pageViews": 70
 				},
 				{
+					"country": "SG",
+					"pageViews": 60
+				},
+				{
 					"country": "NO",
 					"pageViews": 50
 				},
 				{
 					"country": "ES",
-					"pageViews": 50
-				},
-				{
-					"country": "SG",
 					"pageViews": 50
 				},
 				{
@@ -2829,7 +2829,7 @@
 			"topBrowsers": [
 				{
 					"browser": "Chrome",
-					"pageViews": 680
+					"pageViews": 690
 				},
 				{
 					"browser": "ChromeMobile",
@@ -2840,11 +2840,11 @@
 					"pageViews": 110
 				},
 				{
-					"browser": "Edge",
+					"browser": "Firefox",
 					"pageViews": 100
 				},
 				{
-					"browser": "Firefox",
+					"browser": "Edge",
 					"pageViews": 100
 				}
 			]
@@ -4117,7 +4117,7 @@
 					"topPages": [
 						{
 							"path": "/",
-							"pageViews": 1400
+							"pageViews": 1410
 						},
 						{
 							"path": "/dev/",
@@ -4196,11 +4196,11 @@
 							"pageViews": 40
 						},
 						{
-							"country": "AT",
+							"country": "AU",
 							"pageViews": 30
 						},
 						{
-							"country": "NO",
+							"country": "AT",
 							"pageViews": 30
 						}
 					],
@@ -4214,11 +4214,11 @@
 							"pageViews": 360
 						},
 						{
-							"browser": "Unknown",
-							"pageViews": 110
+							"browser": "Edge",
+							"pageViews": 120
 						},
 						{
-							"browser": "Edge",
+							"browser": "Unknown",
 							"pageViews": 110
 						},
 						{
@@ -4231,7 +4231,7 @@
 			"topPages": [
 				{
 					"path": "/",
-					"pageViews": 1400
+					"pageViews": 1410
 				},
 				{
 					"path": "/dev/",
@@ -4310,11 +4310,11 @@
 					"pageViews": 40
 				},
 				{
-					"country": "AT",
+					"country": "AU",
 					"pageViews": 30
 				},
 				{
-					"country": "NO",
+					"country": "AT",
 					"pageViews": 30
 				}
 			],
@@ -4328,11 +4328,11 @@
 					"pageViews": 360
 				},
 				{
-					"browser": "Unknown",
-					"pageViews": 110
+					"browser": "Edge",
+					"pageViews": 120
 				},
 				{
-					"browser": "Edge",
+					"browser": "Unknown",
 					"pageViews": 110
 				},
 				{
