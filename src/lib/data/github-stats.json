@@ -7,7 +7,7 @@
 			"openIssues": 15
 		},
 		"pysimhub": {
-			"projects": 14,
+			"projects": 15,
 			"members": 3
 		}
 	},
@@ -164,10 +164,10 @@
 				"openIssues": 15
 			},
 			"pysimhub": {
-				"projects": 14,
+				"projects": 15,
 				"members": 3
 			}
 		}
 	],
-	"fetchedAt": "2026-02-03T13:11:00.340Z"
+	"fetchedAt": "2026-02-03T16:59:05.711Z"
 }
